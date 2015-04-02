@@ -86,6 +86,14 @@ public class Labirinto {
 		this.tabuleiro = tabuleiro;
 	}
 
+	public Peca getEscudo() {
+		return escudo;
+	}
+
+	public void setEscudo(Peca escudo) {
+		this.escudo = escudo;
+	}
+
 	// ==========================================================
 	// MAIN
 	public static void main(String[] args) { // TODO: PODE ACONTECER O HEROI
