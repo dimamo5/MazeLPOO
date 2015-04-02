@@ -8,12 +8,38 @@ public class Cli {
 
 	private Scanner scan = new Scanner(System.in);
 
+	private Labirinto labirinto;
+
 	public Cli() {
-		// TODO Auto-generated constructor stub
+		labirinto = new Labirinto(dragaoQuantidade(), dragaoTipo(),
+				CliMazeChoose(), autoMazeSize());
+		playGame();
 	}
 
-	public void finalize() {
-		scan.close();
+	public void playGame() {
+
+		char comando;
+
+		imprimeTabuleiro(labirinto.getTabuleiro());
+
+		while (labirinto.getHeroi().getActive()) {
+
+			recebeComandoMove();
+
+			labirinto.updateDragons();
+
+			imprimeTabuleiro(labirinto.getTabuleiro());
+			imprimeEquips(labirinto.getHeroi());
+
+		}
+		// rotina de game over
+		imprimeTabuleiro(labirinto.getTabuleiro());
+
+		if (labirinto.gameOver()) {
+			endGame(1);
+		} else {
+			endGame(0);
+		}
 	}
 
 	public int CliMazeChoose() {
@@ -22,7 +48,7 @@ public class Cli {
 
 		System.out.println("2-Labirinto Automatico");
 
-		System.out.print("OpÃ§Ã£o:");
+		System.out.println("Opção:");
 
 		while (true) {
 			int opcao = scan.nextInt();
@@ -71,16 +97,6 @@ public class Cli {
 
 	}
 
-	public char heroiComando() {
-		char comando;
-
-		System.out.print("\nPressione uma tecla para mover o heroi (W,A,S,D,F-Dardo):");
-
-		comando = scan.next().charAt(0);
-
-		return comando;
-	}
-
 	public char dragaoTipo() {
 		char tipoMovimento = 'o';
 
@@ -89,7 +105,7 @@ public class Cli {
 		System.out.print("\nEscolha um tipo de moviemnto para o Dragao:");
 		System.out.print("\nP-Parado:");
 		System.out.print("\nA-Aleatorio:");
-		System.out.print("\nZ-Aleatorio/Dormir:");
+		System.out.println("\nZ-Aleatorio/Dormir:");
 
 		tipoMovimento = scan.next().charAt(0);
 		tipoMovimento = Character.toLowerCase(tipoMovimento);
@@ -108,16 +124,16 @@ public class Cli {
 		return quantidade;
 	}
 
-	public void defeat() {
-		System.out.println("==================================");
-		System.out.println("|==============DEFEAT============|");
-		System.out.println("==================================");
-	}
-
-	public void victory() {
-		System.out.println("==================================");
-		System.out.println("|=============VICTORY============|");
-		System.out.println("==================================");
+	public void endGame(int VicDef) {
+		if (VicDef == 0) {
+			System.out.println("==================================");
+			System.out.println("|==============DEFEAT============|");
+			System.out.println("==================================");
+		} else if (VicDef == 1) {
+			System.out.println("==================================");
+			System.out.println("|=============VICTORY============|");
+			System.out.println("==================================");
+		}
 	}
 
 	public void imprimeEquips(Heroi h) {
@@ -136,32 +152,45 @@ public class Cli {
 		System.out.println();
 	}
 
-	public void imprimeBolaFogo(Tabuleiro tab, Heroi h, Dragao d) {
-		for (int i = 1; i <= 3; i++) {
-			if (tab.getTab()[d.getPos().getY()][d.getPos().getX() + i] != 'X') {
-				tab.setChar(d.getPos().getX() + i, d.getPos().getY(), '*');
-			}
-			if (tab.getTab()[d.getPos().getY()][d.getPos().getX() - i] != 'X') {
-				tab.setChar(d.getPos().getX() - i, d.getPos().getY(), '*');
-			}
-			if (tab.getTab()[d.getPos().getY() + i][d.getPos().getX()] != 'X') {
-				tab.setChar(d.getPos().getX(), d.getPos().getY() + i, '*');
-			}
-			if (tab.getTab()[d.getPos().getY() + i][d.getPos().getX()] != 'X') {
-				tab.setChar(d.getPos().getX(), d.getPos().getY() - i, '*');
-			}
-			try {
-				Thread.sleep(500);                 // 1000 milliseconds is one second.
-			} catch (InterruptedException ex) {
-				Thread.currentThread().interrupt();
-			}
-		}
-	}
-
 	public char dardoDir() {
 		System.out.println("Direcao dardo (W,A,S,D,C-Cancelar)");
 		char comando = scan.next().charAt(0);
 		comando = Character.toLowerCase(comando);
 		return comando;
+	}
+
+	public void recebeComandoMove() {
+
+		System.out
+				.print("\nPressione uma tecla para mover o heroi (W,A,S,D,F-Dardo):");
+
+		char comando = scan.next().charAt(0);
+
+		switch (comando) {
+
+		case 'w':
+			labirinto.moveUp();
+			break;
+
+		case 'a':
+			labirinto.moveLeft();
+			break;
+
+		case 's':
+			labirinto.moveDown();
+			break;
+
+		case 'd':
+			labirinto.moveRight();
+			break;
+		case 'f':
+			if (labirinto.getHeroi().getNrDardos() > 0) {
+
+				labirinto.shotDardo(dardoDir());
+				labirinto.getHeroi().removeNrDardos();
+			}
+		default:
+			break;
+		}
 	}
 }
