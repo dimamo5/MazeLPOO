@@ -25,7 +25,7 @@ public class BoardGame extends JPanel implements KeyListener {
 	// imagens
 	BufferedImage hero, sword, wall, dragon, dart, shield, hero_armed, floor, dragon_sleep, exit;
 
-	public BoardGame(Settings settings) {
+	public BoardGame(Labirinto lab,Settings settings) {
 		addKeyListener(this);
 		setFocusable(true);
 		this.loadImages();
@@ -33,7 +33,7 @@ public class BoardGame extends JPanel implements KeyListener {
 		//this.setMinimumSize(new Dimension(set.getMazeSize() * TILESIZE, set.getMazeSize() * TILESIZE));
 		//this.setBounds(0, 50, set.getMazeSize() * TILESIZE, set.getMazeSize() * TILESIZE);
 		this.setVisible(true);
-		lab = new Labirinto(settings.getNumDragons(), settings.getTypeDragons(), settings.getMazeType(), settings.getMazeSize());
+		this.lab = lab;
 		set = settings;
 
 	}

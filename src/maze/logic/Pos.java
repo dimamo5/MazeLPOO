@@ -1,6 +1,8 @@
 package maze.logic;
 
-public class Pos {
+import java.io.Serializable;
+
+public class Pos implements Serializable{
 	private int x,y;
 
 	public Pos(int x, int y) {

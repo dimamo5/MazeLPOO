@@ -23,6 +23,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 
 import javax.swing.AbstractAction;
@@ -36,10 +37,9 @@ public class MazeGui {
 	private JFrame frame;
 	private JPanel panelMenu, jogoPanel;
 
-	
 	private Labirinto lab;
 	private Settings settings = new Settings();
-	private MazeIOFile =new MazeIOFile(new File("resources/save.dat"),lab);
+	private MazeIOFile io = new MazeIOFile(new File("resources/save.dat"), lab);
 
 	/**
 	 * Launch the application.
@@ -69,37 +69,37 @@ public class MazeGui {
 	 */
 	private void initialize() {
 		frame = new JFrame("Labirinto");
-		frame.setMinimumSize(new Dimension(settings.getMazeSize() * BoardGame.TILESIZE+10, 10+settings.getMazeSize() * BoardGame.TILESIZE));
-		frame.setBounds(100, 100,settings.getMazeSize() * BoardGame.TILESIZE+10, 50 + settings.getMazeSize() * BoardGame.TILESIZE);
+		frame.setMinimumSize(new Dimension(settings.getMazeSize() * BoardGame.TILESIZE + 10, 10 + settings.getMazeSize() * BoardGame.TILESIZE));
+		frame.setBounds(100, 100, settings.getMazeSize() * BoardGame.TILESIZE + 10, 50 + settings.getMazeSize() * BoardGame.TILESIZE);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frame.setResizable(false);
+
 		panelMenu = new JPanel();
 		panelMenu.setBounds(0, 0, frame.getWidth(), 50);
-		panelMenu.setLayout(new GridLayout(1,3));
+		panelMenu.setLayout(new GridLayout(1, 5));
 		frame.getContentPane().add(panelMenu);
 
 		JButton btnNewButton = new JButton("Play Game");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (JOptionPane.showConfirmDialog(null, "Start Game", "Start Game?", JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION) {
+					
+					lab = new Labirinto(settings.getNumDragons(), settings.getTypeDragons(), settings.getMazeType(), settings.getMazeSize());
 					startMaze();
 				}
 
 			}
 		});
-		
+
 		panelMenu.add(btnNewButton);
 
-		JButton btnExit = new 
-				JButton("Exit");
+		JButton btnExit = new JButton("Exit");
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
 			}
 		});
-		
-		
 
 		panelMenu.add(btnExit);
 
@@ -109,32 +109,56 @@ public class MazeGui {
 
 		settings = ((SettingButton) btnSetup).getSettings();
 
+		JButton save = new JButton("Save");
 
-		jogoPanel = new BoardGame(settings);
+		save.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (lab == null) {
+					JOptionPane.showMessageDialog(null, "Nenhum labirinto para guardar", "Erro", JOptionPane.ERROR_MESSAGE);
+				} else {
+					System.out.println("Guardou o jogo");
+					io.setLab(lab);
+					io.saveMaze();
+				}
+			}
+		});
+		
+		panelMenu.add(save);
+		
+		JButton load = new JButton("Load Teste");
 
-		jogoPanel.setBounds(0, 50, settings.getMazeSize() * BoardGame.TILESIZE, settings.getMazeSize() * BoardGame.TILESIZE);
+		load.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (io.getFile().length()==0) {
+					JOptionPane.showMessageDialog(null, "Nenhum labirinto guardado pode ser carregado", "Erro", JOptionPane.ERROR_MESSAGE);
+				} else {
+					System.out.println("Carregou jogo");
+					lab=io.loadMaze();
+					startMaze();
+				}
+			}
+		});
 		
-		frame.getContentPane().add(jogoPanel);
+		panelMenu.add(load);
 		
+
 		frame.pack();
 	}
 
 	public void startMaze() {
-		frame.setMinimumSize(new Dimension(10+settings.getMazeSize() * BoardGame.TILESIZE, 90+settings.getMazeSize() * BoardGame.TILESIZE));
-		
-		jogoPanel = new BoardGame(settings);
+		frame.setMinimumSize(new Dimension(10 + settings.getMazeSize() * BoardGame.TILESIZE, 90 + settings.getMazeSize() * BoardGame.TILESIZE));
+
+		jogoPanel = new BoardGame(lab, settings);
 		frame.getContentPane().add(jogoPanel);
-		
+
 		jogoPanel.setBounds(0, 50, settings.getMazeSize() * BoardGame.TILESIZE, settings.getMazeSize() * BoardGame.TILESIZE);
-		panelMenu.setBounds(0,0,frame.getWidth(),50);
-		
+		panelMenu.setBounds(0, 0, frame.getWidth(), 50);
+
 		jogoPanel.requestFocus();
 		jogoPanel.repaint();
-		
-		
-		
-		
+
 		frame.pack();
+
 		System.out.println("Novo Jogo");
 	}
 

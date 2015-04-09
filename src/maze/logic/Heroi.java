@@ -1,6 +1,8 @@
 package maze.logic;
 
-public class Heroi extends Peca {
+import java.io.Serializable;
+
+public class Heroi extends Peca implements Serializable{
 
 	private int nrDardos = 0;
 	private boolean armed = false;

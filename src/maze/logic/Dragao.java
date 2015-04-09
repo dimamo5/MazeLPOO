@@ -1,5 +1,6 @@
 package maze.logic;
 
+import java.io.Serializable;
 import java.util.Random;
 
 public class Dragao extends Peca {

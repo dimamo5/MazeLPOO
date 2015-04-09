@@ -1,6 +1,8 @@
 package maze.logic;
 
-public class Tabuleiro {
+import java.io.Serializable;
+
+public class Tabuleiro implements Serializable{
 	
 	private char[][] tab;
 	Pos exit;

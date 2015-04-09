@@ -1,6 +1,8 @@
 package maze.logic;
 
-public class Peca {
+import java.io.Serializable;
+
+public class Peca implements Serializable{
 
 	private Pos pos;
 	private char sigla;

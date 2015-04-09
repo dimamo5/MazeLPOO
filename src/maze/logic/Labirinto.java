@@ -1,10 +1,12 @@
 package maze.logic;
 
+import java.io.Serializable;
 import java.util.Random;
 
 import maze.cli.Cli;
 
-public class Labirinto {
+@SuppressWarnings("serial")
+public class Labirinto implements Serializable{
 
 	private Heroi heroi = new Heroi(0, 0); // criar construtor sem parametros ou
 	// passar parametros random
