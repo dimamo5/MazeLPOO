@@ -11,8 +11,7 @@ public class Cli {
 	private Labirinto labirinto;
 
 	public Cli() {
-		labirinto = new Labirinto(dragaoQuantidade(), dragaoTipo(),
-				CliMazeChoose(), autoMazeSize());
+		labirinto = new Labirinto(dragaoQuantidade(), dragaoTipo(), CliMazeChoose(), autoMazeSize());
 		playGame();
 	}
 
@@ -161,8 +160,7 @@ public class Cli {
 
 	public void recebeComandoMove() {
 
-		System.out
-				.print("\nPressione uma tecla para mover o heroi (W,A,S,D,F-Dardo):");
+		System.out.print("\nPressione uma tecla para mover o heroi (W,A,S,D,F-Dardo):");
 
 		char comando = scan.next().charAt(0);
 
@@ -185,10 +183,9 @@ public class Cli {
 			break;
 		case 'f':
 			if (labirinto.getHeroi().getNrDardos() > 0) {
-
 				labirinto.shotDardo(dardoDir());
-				labirinto.getHeroi().removeNrDardos();
 			}
+			break;
 		default:
 			break;
 		}

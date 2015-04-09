@@ -1,7 +1,8 @@
 package maze.gui;
 
-import java.awt.Dimension;
+import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -10,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -25,23 +27,31 @@ public class BoardGame extends JPanel implements KeyListener {
 	// imagens
 	BufferedImage hero, sword, wall, dragon, dart, shield, hero_armed, floor, dragon_sleep, exit;
 
-	public BoardGame(Labirinto lab,Settings settings) {
+	JLabel nrDardos;
+
+	public BoardGame(Labirinto lab, Settings settings) {
 		addKeyListener(this);
 		setFocusable(true);
 		this.loadImages();
 		this.setLayout(new FlowLayout());
-		//this.setMinimumSize(new Dimension(set.getMazeSize() * TILESIZE, set.getMazeSize() * TILESIZE));
-		//this.setBounds(0, 50, set.getMazeSize() * TILESIZE, set.getMazeSize() * TILESIZE);
 		this.setVisible(true);
 		this.lab = lab;
 		set = settings;
 
+		nrDardos = new JLabel("Dardos = " + lab.getHeroi().getNrDardos());
+		nrDardos.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		this.add(nrDardos);
+		nrDardos.setBounds(this.getWidth() - 40, this.getHeight() - 20, 40, 20);
+		nrDardos.setForeground(Color.WHITE);
+		nrDardos.setVisible(true);
 	}
 
 	@Override
 	public void paintComponent(Graphics g) {
 
 		super.paintComponent(g); // limpa fundo ...
+
+		// nrDardos.repaint();
 
 		BufferedImage img = wall; // default init
 
@@ -74,16 +84,15 @@ public class BoardGame extends JPanel implements KeyListener {
 					img = hero;
 				}
 
-				int xi, yi, xf, yf;
+				int xi, yi;
 				xi = j * TILESIZE;
 				yi = i * TILESIZE;
-				// xf = this.getWidth() / maze_ln;
-				// yf = this.getHeight() / maze_ln;
 
-				g.drawImage(img, xi, yi,TILESIZE,TILESIZE, null);
+				g.drawImage(img, xi, yi, TILESIZE, TILESIZE, null);
 			}
 		}
-		g.dispose();
+
+		//g.dispose();
 
 	}
 
@@ -116,8 +125,19 @@ public class BoardGame extends JPanel implements KeyListener {
 			lab.moveLeft();
 		} else if (e.getKeyCode() == set.getRight()) {
 			lab.moveRight();
+		} else if (e.getKeyCode() == set.getShotUp()) {
+			lab.shotDardo('w');
+		} else if (e.getKeyCode() == set.getShotDown()) {
+			lab.shotDardo('s');
+		} else if (e.getKeyCode() == set.getShotLeft()) {
+			lab.shotDardo('a');
+		} else if (e.getKeyCode() == set.getShotRigth()) {
+			lab.shotDardo('d');
 		}
+
 		lab.updateDragons();
+
+		nrDardos.setText("Dardos = " + lab.getHeroi().getNrDardos());
 
 		repaint();
 

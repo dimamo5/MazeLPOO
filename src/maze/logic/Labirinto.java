@@ -6,7 +6,7 @@ import java.util.Random;
 import maze.cli.Cli;
 
 @SuppressWarnings("serial")
-public class Labirinto implements Serializable{
+public class Labirinto implements Serializable {
 
 	private Heroi heroi = new Heroi(0, 0); // criar construtor sem parametros ou
 	// passar parametros random
@@ -25,8 +25,7 @@ public class Labirinto implements Serializable{
 	public Labirinto() {
 	}
 
-	public Labirinto(int quantidadeDragao, char tipoDragao, int mazeType,
-			int mazeSize) {
+	public Labirinto(int quantidadeDragao, char tipoDragao, int mazeType, int mazeSize) {
 		IMazeBuilder mazeGenerator;
 
 		if (mazeType == 1) {
@@ -111,8 +110,7 @@ public class Labirinto implements Serializable{
 			if (d.getActive()) {
 				d.updateSleeping();
 				if (d.isDormir()) {
-					tabuleiro.setChar(d.getPos().getX(), d.getPos().getY(),
-							d.getSigla());
+					tabuleiro.setChar(d.getPos().getX(), d.getPos().getY(), d.getSigla());
 				} else {
 					moverDragao(d);
 				}
@@ -172,18 +170,15 @@ public class Labirinto implements Serializable{
 
 	public int moveUp() { // heroi.pos(x,y) : heroi.posicao do heroi (H)
 
-		if (heroi.getPos().getY() == 0
-				|| heroi.getPos().getY() >= tabuleiro.getTamanho() - 1) {
+		if (heroi.getPos().getY() == 0 || heroi.getPos().getY() >= tabuleiro.getTamanho() - 1) {
 			return 1;
 		}
 
 		if (tabuleiro.getTab()[heroi.getPos().getY() - 1][heroi.getPos().getX()] == 'X') {
 			return 1;
 		} else {
-			tabuleiro.setChar(heroi.getPos().getX(), heroi.getPos().getY() - 1,
-					heroi.getSigla());
-			tabuleiro
-					.setChar(heroi.getPos().getX(), heroi.getPos().getY(), ' ');
+			tabuleiro.setChar(heroi.getPos().getX(), heroi.getPos().getY() - 1, heroi.getSigla());
+			tabuleiro.setChar(heroi.getPos().getX(), heroi.getPos().getY(), ' ');
 
 			heroi.getPos().setY(heroi.getPos().getY() - 1);
 			return 0;
@@ -192,18 +187,15 @@ public class Labirinto implements Serializable{
 
 	public int moveDown() { // heroi.pos(x,y) : heroi.posicao do heroi (H)
 
-		if (heroi.getPos().getY() >= tabuleiro.getTamanho() - 1
-				|| heroi.getPos().getY() < 0) {
+		if (heroi.getPos().getY() >= tabuleiro.getTamanho() - 1 || heroi.getPos().getY() < 0) {
 			return 1;
 		}
 
 		if (tabuleiro.getTab()[heroi.getPos().getY() + 1][heroi.getPos().getX()] == 'X') {
 			return 1;
 		} else {
-			tabuleiro.setChar(heroi.getPos().getX(), heroi.getPos().getY() + 1,
-					heroi.getSigla());
-			tabuleiro
-					.setChar(heroi.getPos().getX(), heroi.getPos().getY(), ' ');
+			tabuleiro.setChar(heroi.getPos().getX(), heroi.getPos().getY() + 1, heroi.getSigla());
+			tabuleiro.setChar(heroi.getPos().getX(), heroi.getPos().getY(), ' ');
 
 			heroi.getPos().setY(heroi.getPos().getY() + 1);
 			return 0;
@@ -212,18 +204,15 @@ public class Labirinto implements Serializable{
 
 	public int moveLeft() { // heroi.pos(x,y) : heroi.posicao do heroi (H)
 
-		if (heroi.getPos().getX() >= tabuleiro.getTamanho() - 1
-				|| heroi.getPos().getX() < 0) {
+		if (heroi.getPos().getX() >= tabuleiro.getTamanho() - 1 || heroi.getPos().getX() < 0) {
 			return 1;
 		}
 
 		if (tabuleiro.getTab()[heroi.getPos().getY()][heroi.getPos().getX() - 1] == 'X') {
 			return 1;
 		} else {
-			tabuleiro.setChar(heroi.getPos().getX() - 1, heroi.getPos().getY(),
-					heroi.getSigla());
-			tabuleiro
-					.setChar(heroi.getPos().getX(), heroi.getPos().getY(), ' ');
+			tabuleiro.setChar(heroi.getPos().getX() - 1, heroi.getPos().getY(), heroi.getSigla());
+			tabuleiro.setChar(heroi.getPos().getX(), heroi.getPos().getY(), ' ');
 
 			heroi.getPos().setX(heroi.getPos().getX() - 1);
 			return 0;
@@ -232,18 +221,15 @@ public class Labirinto implements Serializable{
 
 	public int moveRight() { // heroi.pos(x,y) : heroi.posicao do heroi (H)
 
-		if (heroi.getPos().getX() >= tabuleiro.getTamanho() - 1
-				|| heroi.getPos().getX() < 0) {
+		if (heroi.getPos().getX() >= tabuleiro.getTamanho() - 1 || heroi.getPos().getX() < 0) {
 			return 1;
 		}
 
 		if (tabuleiro.getTab()[heroi.getPos().getY()][heroi.getPos().getX() + 1] == 'X') {
 			return 1;
 		} else {
-			tabuleiro.setChar(heroi.getPos().getX() + 1, heroi.getPos().getY(),
-					heroi.getSigla());
-			tabuleiro
-					.setChar(heroi.getPos().getX(), heroi.getPos().getY(), ' ');
+			tabuleiro.setChar(heroi.getPos().getX() + 1, heroi.getPos().getY(), heroi.getSigla());
+			tabuleiro.setChar(heroi.getPos().getX(), heroi.getPos().getY(), ' ');
 
 			heroi.getPos().setX(heroi.getPos().getX() + 1);
 			return 0;
@@ -258,8 +244,7 @@ public class Labirinto implements Serializable{
 		for (Dragao d : dragoes) {
 			if (espada.colide(d)) {
 				coincide = true;
-				tabuleiro.setChar(espada.getPos().getX(), espada.getPos()
-						.getY(), 'F');
+				tabuleiro.setChar(espada.getPos().getX(), espada.getPos().getY(), 'F');
 			}
 		}
 	}
@@ -270,8 +255,7 @@ public class Labirinto implements Serializable{
 
 		if (heroi.colide(espada)) {
 
-			tabuleiro
-					.setChar(heroi.getPos().getX(), heroi.getPos().getY(), 'A');
+			tabuleiro.setChar(heroi.getPos().getX(), heroi.getPos().getY(), 'A');
 			heroi.setSigla('A');
 			heroi.setArmed(true);
 			espada.setActive(false);
@@ -298,8 +282,7 @@ public class Labirinto implements Serializable{
 		}
 
 		// verifica se sai do labirinto
-		if (heroi.getPos().getX() == tabuleiro.getExit().getX()
-				&& heroi.getPos().getY() == tabuleiro.getExit().getY()) {
+		if (heroi.getPos().getX() == tabuleiro.getExit().getX() && heroi.getPos().getY() == tabuleiro.getExit().getY()) {
 			heroi.setActive(false);
 		}
 		checkCoincide();
@@ -315,23 +298,20 @@ public class Labirinto implements Serializable{
 			if (heroi.isArmed()) { // mata dragao
 				dragao.setActive(false);
 				dragao.setSigla(' ');
-				tabuleiro.setChar(dragao.getPos().getX(), dragao.getPos()
-						.getY(), ' ');
+				tabuleiro.setChar(dragao.getPos().getX(), dragao.getPos().getY(), ' ');
 				return;
 
 			} else if (!dragao.isDormir()) { // perde jogo
 				heroi.setActive(false);
 			}
-		} else if (dragao.ver(heroi, tabuleiro, 3) && !heroi.isShield()
-				&& !dragao.isDormir()) {
+		} else if (dragao.ver(heroi, tabuleiro, 3) && !heroi.isShield() && !dragao.isDormir()) {
 			heroi.setActive(false);
 		}
 	}
 
-
 	public void shotDardo(char comando) {
 
-		if (comando == 'c') {
+		if (comando == 'c' || heroi.getNrDardos() < 1) {
 			return;
 		}
 
@@ -342,31 +322,28 @@ public class Labirinto implements Serializable{
 				if (diffX == 0) {
 					if (diffY < 0 && comando == 'w') {
 						d.setActive(false);
-						tabuleiro.setChar(d.getPos().getX(), d.getPos().getY(),
-								' ');
+						tabuleiro.setChar(d.getPos().getX(), d.getPos().getY(), ' ');
 						return;
 					} else if (diffY > 0 && comando == 's') {
 						d.setActive(false);
-						tabuleiro.setChar(d.getPos().getX(), d.getPos().getY(),
-								' ');
+						tabuleiro.setChar(d.getPos().getX(), d.getPos().getY(), ' ');
 						return;
 					}
 				}
 				if (diffY == 0) {
 					if (diffX < 0 && comando == 'a') {
 						d.setActive(false);
-						tabuleiro.setChar(d.getPos().getX(), d.getPos().getY(),
-								' ');
+						tabuleiro.setChar(d.getPos().getX(), d.getPos().getY(), ' ');
 						return;
 					} else if (diffX > 0 && comando == 'd') {
 						d.setActive(false);
-						tabuleiro.setChar(d.getPos().getX(), d.getPos().getY(),
-								' ');
+						tabuleiro.setChar(d.getPos().getX(), d.getPos().getY(), ' ');
 						return;
 					}
 				}
 			}
 		}
+		heroi.removeNrDardos();
 	}
 
 	public void moverDragao(Dragao dragao) {
@@ -380,71 +357,50 @@ public class Labirinto implements Serializable{
 			return;
 		}
 
-		if (dir == 0
-				&& tabuleiro.getTab()[dragao.getPos().getY()][dragao.getPos()
-						.getX() + 1] != 'X'
+		if (dir == 0 && tabuleiro.getTab()[dragao.getPos().getY()][dragao.getPos().getX() + 1] != 'X'
 				&& dragao.getPos().getX() + 1 < tabuleiro.getTamanho() - 1) { // dragao
 
 			if (coincide) {
 				coincide = false;
-				tabuleiro.setChar(dragao.getPos().getX(), dragao.getPos()
-						.getY(), 'E');
+				tabuleiro.setChar(dragao.getPos().getX(), dragao.getPos().getY(), 'E');
 			} else
-				tabuleiro.getTab()[dragao.getPos().getY()][dragao.getPos()
-						.getX()] = ' ';
+				tabuleiro.getTab()[dragao.getPos().getY()][dragao.getPos().getX()] = ' ';
 
 			dragao.getPos().setX(dragao.getPos().getX() + 1);
-			tabuleiro.setChar(dragao.getPos().getX(), dragao.getPos().getY(),
-					dragao.getSigla());
-		} else if (dir == 1
-				&& tabuleiro.getTab()[dragao.getPos().getY() + 1][dragao
-						.getPos().getX()] != 'X'
+			tabuleiro.setChar(dragao.getPos().getX(), dragao.getPos().getY(), dragao.getSigla());
+		} else if (dir == 1 && tabuleiro.getTab()[dragao.getPos().getY() + 1][dragao.getPos().getX()] != 'X'
 				&& dragao.getPos().getY() + 1 < tabuleiro.getTamanho() - 1) {
 
 			if (coincide) {
 				coincide = false;
-				tabuleiro.setChar(dragao.getPos().getX(), dragao.getPos()
-						.getY(), 'E');
+				tabuleiro.setChar(dragao.getPos().getX(), dragao.getPos().getY(), 'E');
 			} else
-				tabuleiro.setChar(dragao.getPos().getX(), dragao.getPos()
-						.getY(), ' ');
+				tabuleiro.setChar(dragao.getPos().getX(), dragao.getPos().getY(), ' ');
 
 			dragao.getPos().setY(dragao.getPos().getY() + 1);
-			tabuleiro.setChar(dragao.getPos().getX(), dragao.getPos().getY(),
-					dragao.getSigla());
+			tabuleiro.setChar(dragao.getPos().getX(), dragao.getPos().getY(), dragao.getSigla());
 
-		} else if (dir == 2
-				&& tabuleiro.getTab()[dragao.getPos().getY()][dragao.getPos()
-						.getX() - 1] != 'X' && dragao.getPos().getX() - 1 > 0) {
+		} else if (dir == 2 && tabuleiro.getTab()[dragao.getPos().getY()][dragao.getPos().getX() - 1] != 'X' && dragao.getPos().getX() - 1 > 0) {
 
 			if (coincide) {
 				coincide = false;
-				tabuleiro.setChar(dragao.getPos().getX(), dragao.getPos()
-						.getY(), dragao.getSigla());
+				tabuleiro.setChar(dragao.getPos().getX(), dragao.getPos().getY(), dragao.getSigla());
 			} else
-				tabuleiro.setChar(dragao.getPos().getX(), dragao.getPos()
-						.getY(), ' ');
+				tabuleiro.setChar(dragao.getPos().getX(), dragao.getPos().getY(), ' ');
 
 			dragao.getPos().setX(dragao.getPos().getX() - 1);
-			tabuleiro.setChar(dragao.getPos().getX(), dragao.getPos().getY(),
-					dragao.getSigla());
+			tabuleiro.setChar(dragao.getPos().getX(), dragao.getPos().getY(), dragao.getSigla());
 
-		} else if (dir == 3
-				&& tabuleiro.getTab()[dragao.getPos().getY() - 1][dragao
-						.getPos().getX()] != 'X'
-				&& dragao.getPos().getY() - 1 > 0) {
+		} else if (dir == 3 && tabuleiro.getTab()[dragao.getPos().getY() - 1][dragao.getPos().getX()] != 'X' && dragao.getPos().getY() - 1 > 0) {
 
 			if (coincide) {
 				coincide = false;
-				tabuleiro.setChar(dragao.getPos().getX(), dragao.getPos()
-						.getY(), 'E');
+				tabuleiro.setChar(dragao.getPos().getX(), dragao.getPos().getY(), 'E');
 			} else
-				tabuleiro.setChar(dragao.getPos().getX(), dragao.getPos()
-						.getY(), ' ');
+				tabuleiro.setChar(dragao.getPos().getX(), dragao.getPos().getY(), ' ');
 
 			dragao.getPos().setY(dragao.getPos().getY() - 1);
-			tabuleiro.setChar(dragao.getPos().getX(), dragao.getPos().getY(),
-					dragao.getSigla());
+			tabuleiro.setChar(dragao.getPos().getX(), dragao.getPos().getY(), dragao.getSigla());
 		}
 	}
 
