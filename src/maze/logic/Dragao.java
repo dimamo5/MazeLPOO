@@ -63,4 +63,8 @@ public class Dragao extends Peca {
 		return status;
 	}
 
+	public void setTurnsSleeping(int i) {
+		this.turnsSleeping = i;
+	}
+
 }

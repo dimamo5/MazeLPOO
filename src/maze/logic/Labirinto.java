@@ -123,6 +123,8 @@ public class Labirinto implements Serializable {
 	// inicializacao
 	public void initTabuleiro() {
 
+		boolean posicaoHeroiOK = false;
+
 		atribuiCoos(heroi);
 		atribuiCoos(espada);
 		atribuiCoos(escudo);
@@ -138,6 +140,20 @@ public class Labirinto implements Serializable {
 			atribuiCoos(d);
 		}
 
+		int dragonsPassed = 0;
+
+		while (dragonsPassed != dragoes.length) {
+
+			for (Dragao d : dragoes) {
+				if (heroi.ver(d, tabuleiro, 3)) {
+					dragonsPassed = 0;
+					atribuiCoos(heroi);
+					break;
+				}else{
+					dragonsPassed++;
+				}
+			}
+		}
 	}
 
 	// atribui �s pecas coordenadas de posicoes aleatorias livres do tabuleiro
@@ -311,7 +327,7 @@ public class Labirinto implements Serializable {
 
 	public void shotDardo(char comando) {
 
-		if (comando == 'c' || heroi.getNrDardos() < 1) {
+		if (comando == 'c' || heroi.getNrDardos() <= 0) {
 			return;
 		}
 
