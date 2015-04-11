@@ -150,10 +150,10 @@ public class SettingButton extends JButton implements ActionListener, KeyListene
 		// fazer com que a string da label seja obtida atraves de uma
 		// funcao que converta codigo da tecla em string
 		// ex:JButton upKey = new JButton("UP="+ KeyChar(settings.getUp()) );
-		JButton upKey = new JButton("UP= ARROW_UP");
-		JButton downKey = new JButton("DOWN= ARROW_DOWN");
-		JButton leftKey = new JButton("LEFT= ARROW_LEFT");
-		JButton rigthKey = new JButton("RIGTH= ARROW_RIGHT");
+		JButton upKey = new JButton("UP="+ KeyEvent.getKeyText(settings.getUp()));
+		JButton downKey = new JButton("DOWN="+ KeyEvent.getKeyText(settings.getDown()));
+		JButton leftKey = new JButton("LEFT="+KeyEvent.getKeyText(settings.getLeft()));
+		JButton rigthKey = new JButton("RIGTH="+ KeyEvent.getKeyText(settings.getRight()));
 		JButton shoot = new JButton("SHOOT");
 
 		upKey.addKeyListener(this);
@@ -172,7 +172,7 @@ public class SettingButton extends JButton implements ActionListener, KeyListene
 					settings.setUp(keyPressed.getKeyCode());
 					upKey.setText("UP=" + keyPressed.getKeyChar());
 				}
-
+		
 				System.out.println(settings.getUp());				
 			}
 		});

@@ -16,7 +16,7 @@ public class Labirinto implements Serializable {
 
 	private Dragao dragoes[];
 
-	//private boolean coincide = false;
+	// private boolean coincide = false;
 
 	private Tabuleiro tabuleiro;
 
@@ -141,7 +141,7 @@ public class Labirinto implements Serializable {
 
 		tabuleiro.setChar(heroi.getPos().getX(), heroi.getPos().getY(), heroi.getSigla());
 
-		if (tabuleiro.getTab()[escudo.getPos().getY()][escudo.getPos().getX()] == ' ' && escudo.getActive()) {
+		if (tabuleiro.getTab()[escudo.getPos().getY()][escudo.getPos().getX()] == ' ' && escudo.getActive() ) {
 
 			tabuleiro.setChar(escudo.getPos().getX(), escudo.getPos().getY(), escudo.getSigla());
 		}
@@ -160,15 +160,15 @@ public class Labirinto implements Serializable {
 		}
 
 		for (Dragao d : dragoes) {
-			if(d.getActive())
-			tabuleiro.setChar(d.getPos().getX(), d.getPos().getY(), d.getSigla());
+			if (d.getActive())
+				tabuleiro.setChar(d.getPos().getX(), d.getPos().getY(), d.getSigla());
 		}
 	}
 
 	// inicializacao
 	public void initTabuleiro() {
 
-		//boolean posicaoHeroiOK = false;
+		// boolean posicaoHeroiOK = false;
 
 		atribuiCoos(heroi);
 		atribuiCoos(espada);
@@ -425,6 +425,7 @@ public class Labirinto implements Serializable {
 		if (dir == 0 && tabuleiro.getTab()[dragao.getPos().getY()][dragao.getPos().getX() + 1] != 'X'
 				&& tabuleiro.getTab()[dragao.getPos().getY()][dragao.getPos().getX() + 1] != 'D'
 				&& tabuleiro.getTab()[dragao.getPos().getY()][dragao.getPos().getX() + 1] != 'S'
+				&& tabuleiro.getTab()[dragao.getPos().getY()][dragao.getPos().getX() + 1] != 'Z'
 				&& dragao.getPos().getX() + 1 < tabuleiro.getTamanho() - 1) { // dragao
 
 			// if (coincide) {
@@ -442,6 +443,7 @@ public class Labirinto implements Serializable {
 		} else if (dir == 1 && tabuleiro.getTab()[dragao.getPos().getY() + 1][dragao.getPos().getX()] != 'X'
 				&& tabuleiro.getTab()[dragao.getPos().getY() + 1][dragao.getPos().getX()] != 'D'
 				&& tabuleiro.getTab()[dragao.getPos().getY() + 1][dragao.getPos().getX()] != 'S'
+				&& tabuleiro.getTab()[dragao.getPos().getY() + 1][dragao.getPos().getX()] != 'Z'
 				&& dragao.getPos().getY() + 1 < tabuleiro.getTamanho() - 1) {
 
 			// if (coincide) {
@@ -458,7 +460,8 @@ public class Labirinto implements Serializable {
 
 		} else if (dir == 2 && tabuleiro.getTab()[dragao.getPos().getY()][dragao.getPos().getX() - 1] != 'X'
 				&& tabuleiro.getTab()[dragao.getPos().getY()][dragao.getPos().getX() - 1] != 'D'
-				&& tabuleiro.getTab()[dragao.getPos().getY()][dragao.getPos().getX() - 1] != 'S' && dragao.getPos().getX() - 1 > 0) {
+				&& tabuleiro.getTab()[dragao.getPos().getY()][dragao.getPos().getX() - 1] != 'S'
+				&& tabuleiro.getTab()[dragao.getPos().getY()][dragao.getPos().getX() - 1] != 'Z' && dragao.getPos().getX() - 1 > 0) {
 
 			// if (coincide) {
 			// coincide = false;
@@ -474,7 +477,7 @@ public class Labirinto implements Serializable {
 		} else if (dir == 3 && tabuleiro.getTab()[dragao.getPos().getY() - 1][dragao.getPos().getX()] != 'X'
 				&& tabuleiro.getTab()[dragao.getPos().getY() - 1][dragao.getPos().getX()] != 'D'
 				&& tabuleiro.getTab()[dragao.getPos().getY() - 1][dragao.getPos().getX()] != 'S'
-				&& dragao.getPos().getY() - 1 > 0) {
+				&& tabuleiro.getTab()[dragao.getPos().getY() - 1][dragao.getPos().getX()] != 'Z' && dragao.getPos().getY() - 1 > 0) {
 
 			// if (coincide) {
 			// coincide = false;
