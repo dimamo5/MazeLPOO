@@ -2,6 +2,7 @@ package maze.logic;
 
 import java.io.Serializable;
 
+@SuppressWarnings("serial")
 public class Peca implements Serializable{
 
 	private Pos pos;

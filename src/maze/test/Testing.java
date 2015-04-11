@@ -14,8 +14,8 @@ public class Testing {
 	char instr[][];
 	CliTesting cliTest;
 
-	//TODO limpar printf
-	
+	// TODO limpar printf
+
 	@Before
 	public void setUp() throws Exception {
 
@@ -82,6 +82,7 @@ public class Testing {
 				lab.moveRight();
 			}
 			lab.checkCollision();
+			lab.refreshTabuleiro();
 		}
 		cliTest.imprimeTabuleiro(lab.getTabuleiro());
 
@@ -94,8 +95,8 @@ public class Testing {
 		lab.setHeroi(new Heroi(1, 1));
 		char movs[] = { 's', 's', 's', 's', 'd', 'd' };
 
-		int ret= 0;
-		
+		int ret = 0;
+
 		for (int i = 0; i < movs.length; i++) {
 
 			if (movs[i] == 'w') {
@@ -107,10 +108,13 @@ public class Testing {
 			} else if (movs[i] == 'd') {
 				ret = lab.moveRight();
 			}
+			lab.refreshTabuleiro();
 			lab.checkCollision();
 		}
+		lab.refreshTabuleiro();
+		
 		cliTest.imprimeTabuleiro(lab.getTabuleiro());
-		assertEquals(0,ret);
+		assertEquals(0, ret);
 		assertEquals(lab.getHeroi().getSigla(), lab.getTabuleiro().getTab()[lab.getHeroi().getPos().getY()][lab.getHeroi().getPos().getX()]);
 
 		assertEquals(false, lab.getHeroi().getActive());
@@ -121,7 +125,7 @@ public class Testing {
 		lab.setHeroi(new Heroi(1, 1));
 		char movs[] = { 's', 's', 'u', 'd', 's', 's', 's', 's', 'w', 'w', 'a', 'd', 'd', 'd' };
 		int ret = 0;
-		
+
 		for (int i = 0; i < movs.length; i++) {
 
 			if (movs[i] == 'w') {
@@ -135,11 +139,13 @@ public class Testing {
 			}
 
 			lab.checkCollision();
+			lab.refreshTabuleiro();
 		}
-		cliTest.imprimeTabuleiro(lab.getTabuleiro());
 		
+		cliTest.imprimeTabuleiro(lab.getTabuleiro());
+
 		assertEquals(lab.getHeroi().getSigla(), lab.getTabuleiro().getTab()[lab.getHeroi().getPos().getY()][lab.getHeroi().getPos().getX()]);
-		assertEquals(0,ret);
+		assertEquals(0, ret);
 		assertEquals(false, lab.getDragoes()[0].getActive());
 	}
 
@@ -159,6 +165,7 @@ public class Testing {
 			} else if (movs[i] == 'd') {
 				lab.moveRight();
 			}
+			lab.refreshTabuleiro();
 			lab.checkCollision();
 		}
 		cliTest.imprimeTabuleiro(lab.getTabuleiro());
@@ -183,6 +190,7 @@ public class Testing {
 				lab.moveRight();
 			}
 			lab.checkCollision();
+			lab.refreshTabuleiro();
 		}
 		cliTest.imprimeTabuleiro(lab.getTabuleiro());
 
@@ -196,7 +204,7 @@ public class Testing {
 
 		Dragao Drags[] = { new Dragao(4, 5, 'A'), new Dragao(6, 1, 'A'), new Dragao(6, 8, 'A') };
 		lab.setDragoes(Drags);
-		//boolean x = false;
+		// boolean x = false;
 
 		for (int i = 0; i < 1; i++) {
 			System.out.println("lol\n");
@@ -220,8 +228,8 @@ public class Testing {
 			if (lab.getDragoes()[0].isDormir()) {
 				assertEquals(true, lab.getDragoes()[0].getTurnsSleeping() > 0);
 				assertEquals(true, lab.getDragoes()[0].getActive());
-				assertEquals('Z',lab.getTabuleiro().getTab()[lab.getDragoes()[0].getPos().getY()][lab.getDragoes()[0].getPos().getX()]);
-			}			 
+				assertEquals('Z', lab.getTabuleiro().getTab()[lab.getDragoes()[0].getPos().getY()][lab.getDragoes()[0].getPos().getX()]);
+			}
 		}
 	}
 
@@ -268,6 +276,7 @@ public class Testing {
 			} else if (movs[i] == 'd') {
 				lab.moveRight();
 			}
+			lab.refreshTabuleiro();
 
 			lab.checkCollision();
 		}
@@ -286,7 +295,8 @@ public class Testing {
 		assertEquals(true, lab.getTabuleiro().getTamanho() == 15);
 		assertEquals(true, lab.getDragoes().length == 2);
 		assertEquals(true, lab.getDragoes()[0].getPos().getX() != 0);
-		assertEquals(lab.getDragoes()[0].getSigla(), lab.getTabuleiro().getTab()[lab.getDragoes()[0].getPos().getY()][lab.getDragoes()[0].getPos().getX()]);
+		assertEquals(lab.getDragoes()[0].getSigla(), lab.getTabuleiro().getTab()[lab.getDragoes()[0].getPos().getY()][lab.getDragoes()[0].getPos()
+				.getX()]);
 	}
 
 	@Test
@@ -341,6 +351,17 @@ public class Testing {
 		lab.getTabuleiro().setTamanho(15);
 
 		assertEquals(true, lab.getTabuleiro().getTamanho() == 15);
+	}
+
+	@Test
+	public void testTabBuild() {
+
+		AutoBuilder ab = new AutoBuilder(11);
+		Tabuleiro t = ab.build();
+		
+		assertEquals('X', t.getTab()[0][0]);
+		assertEquals('X', t.getTab()[0][1]);
+		assertEquals(' ', t.getTab()[1][1]);
 	}
 
 }

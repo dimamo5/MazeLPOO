@@ -139,6 +139,7 @@ public class BoardGame extends JPanel implements KeyListener {
 
 		nrDardos.setText("Dardos = " + lab.getHeroi().getNrDardos());
 
+		lab.refreshTabuleiro();
 		repaint();
 
 		if (lab.getHeroi().getActive() == false) {
