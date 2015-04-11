@@ -77,14 +77,14 @@ public class MazeGui {
 
 		panelMenu = new JPanel();
 		panelMenu.setBounds(0, 0, frame.getWidth(), 50);
-		panelMenu.setLayout(new GridLayout(1, 5));
+		panelMenu.setLayout(new GridLayout(1, 6));
 		frame.getContentPane().add(panelMenu);
 
 		JButton btnNewButton = new JButton("Play Game");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (JOptionPane.showConfirmDialog(null, "Start Game", "Start Game?", JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION) {
-					
+
 					lab = new Labirinto(settings.getNumDragons(), settings.getTypeDragons(), settings.getMazeType(), settings.getMazeSize());
 					startMaze();
 				}
@@ -122,25 +122,35 @@ public class MazeGui {
 				}
 			}
 		});
-		
+
 		panelMenu.add(save);
-		
+
 		JButton load = new JButton("Load Teste");
 
 		load.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (io.getFile().length()==0) {
+				if (io.getFile().length() == 0) {
 					JOptionPane.showMessageDialog(null, "Nenhum labirinto guardado pode ser carregado", "Erro", JOptionPane.ERROR_MESSAGE);
 				} else {
 					System.out.println("Carregou jogo");
-					lab=io.loadMaze();
+					lab = io.loadMaze();
 					startMaze();
 				}
 			}
 		});
-		
+
 		panelMenu.add(load);
-		
+
+		JButton customMaze = new JButton("Custom Maze");
+
+		customMaze.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				lab=new Labirinto();
+				startCustomMaze();
+			}
+		});
+
+		panelMenu.add(customMaze);
 
 		frame.pack();
 	}
@@ -152,6 +162,7 @@ public class MazeGui {
 		frame.getContentPane().add(jogoPanel);
 
 		jogoPanel.setBounds(0, 50, settings.getMazeSize() * BoardGame.TILESIZE, settings.getMazeSize() * BoardGame.TILESIZE);
+		System.out.println(jogoPanel.getWidth()+"  "+jogoPanel.getHeight());
 		panelMenu.setBounds(0, 0, frame.getWidth(), 50);
 
 		jogoPanel.requestFocus();
@@ -160,6 +171,22 @@ public class MazeGui {
 		frame.pack();
 
 		System.out.println("Novo Jogo");
+	}
+
+	public void startCustomMaze() {
+		frame.setMinimumSize(new Dimension(10 + settings.getMazeSize() * BoardGame.TILESIZE, 90 + settings.getMazeSize() * BoardGame.TILESIZE));
+
+		jogoPanel = new BoardGame(lab, settings);
+		frame.getContentPane().add(jogoPanel);
+
+		jogoPanel.setBounds(0, 50, settings.getMazeSize() * BoardGame.TILESIZE, settings.getMazeSize() * BoardGame.TILESIZE);
+		
+		panelMenu.setBounds(0, 0, frame.getWidth(), 50);
+
+		jogoPanel.requestFocus();
+		jogoPanel.repaint();
+
+		frame.pack();
 	}
 
 	private class SwingAction extends AbstractAction {
