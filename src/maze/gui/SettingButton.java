@@ -7,7 +7,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -16,7 +15,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSlider;
-import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -52,25 +50,45 @@ public class SettingButton extends JButton implements ActionListener, KeyListene
 				if (mazeSize.getValue() % 2 == 0) {
 					mazeSize.setValue(mazeSize.getValue() + 1);
 				}
-
 			}
 		});
 
 		nrDragons.setPaintTicks(true);
 		nrDragons.setPaintLabels(true);
 		nrDragons.setLabelTable(nrDragons.createStandardLabels(1));
+		// ==================
 
-		setupWindow.getContentPane().setLayout(new GridLayout(4, 2));
-		setupWindow.setBounds(50, 50, 400, 400);
+		setupWindow.getContentPane().setLayout(new GridLayout(5, 2));
+		setupWindow.setBounds(50, 50, 600, 650);
 		setupWindow.setModal(true);
 
 		setupWindow.getContentPane().add(new JLabel("Nr Dragons:"));
-
 		setupWindow.getContentPane().add(nrDragons);
 
 		setupWindow.getContentPane().add(new JLabel("Board Size:"));
-
 		setupWindow.getContentPane().add(mazeSize);
+
+		setupWindow.getContentPane().add(new JLabel("Maze type:"));
+		ButtonGroup group_mtype = new ButtonGroup();
+		JRadioButton predefinido = new JRadioButton("Aleatorio");
+		JRadioButton custom = new JRadioButton("Aleatorio");
+
+		if (settings.getMazeType() == 1) {
+			predefinido.setSelected(false);
+			custom.setSelected(true);
+		} else {
+			predefinido.setSelected(true);
+			custom.setSelected(false);
+		}
+
+		JPanel teste2 = new JPanel();
+
+		group_mtype.add(custom);
+		teste2.add(custom);
+		group_mtype.add(predefinido);
+		teste2.add(predefinido);
+
+		setupWindow.getContentPane().add(teste2);
 
 		setupWindow.getContentPane().add(new JLabel("Type Dragon:"));
 		ButtonGroup group = new ButtonGroup();
@@ -107,6 +125,10 @@ public class SettingButton extends JButton implements ActionListener, KeyListene
 				} else if (aleatorioDormir.isSelected()) {
 					settings.setTypeDragons('z');
 				}
+				if (custom.isSelected()) {
+					settings.setMazeType(1);
+				} else if (predefinido.isSelected())
+					settings.setMazeType(0);
 			}
 		});
 
@@ -120,29 +142,34 @@ public class SettingButton extends JButton implements ActionListener, KeyListene
 
 	public JPanel createKeyBidings() {
 		JPanel buttonBox = new JPanel();
-		JButton upKey = new JButton("UP KEY");
-		JButton downKey = new JButton("DOWN");
-		JButton leftKey = new JButton("LEFT KEY");
-		JButton rigthKey = new JButton("RIGTH KEY");
-		JButton shoot = new JButton("SHOOT KEY");
+		// POR DEFEITO
+		// fazer com que a string da label seja obtida atraves de uma
+		// funcao que converta codigo da tecla em string
+		// ex:JButton upKey = new JButton("UP="+ KeyChar(settings.getUp()) );
+		JButton upKey = new JButton("UP= ARROW_UP");
+		JButton downKey = new JButton("DOWN= ARROW_DOWN");
+		JButton leftKey = new JButton("LEFT= ARROW_LEFT");
+		JButton rigthKey = new JButton("RIGTH= ARROW_RIGHT");
+		JButton shoot = new JButton("SHOOT");
 
 		upKey.addKeyListener(this);
+		downKey.addKeyListener(this);
+		leftKey.addKeyListener(this);
+		rigthKey.addKeyListener(this);
+		shoot.addKeyListener(this);
 
+		// bug: so depois de voltar a clicar no botao e que a
+		//tecla escolhida aparece		
 		upKey.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				System.out.println(settings.getUp());
+				if (keyPressed != null) {
+					settings.setUp(keyPressed.getKeyCode());
+					upKey.setText("UP=" + keyPressed.getKeyChar());
+				}
 
-				upKey.setText("UP=" + keyPressed.getKeyChar());
-
-				// keyPressed = null;
-				// JDialog dial = new JDialog();
-				// dial.setModal(true);
-				// dial.setVisible(false);
-				//
-				// if (keyPressed != null) {
-				// dial.dispose();
-				// }
+				System.out.println(settings.getUp());				
 			}
 		});
 
@@ -153,7 +180,6 @@ public class SettingButton extends JButton implements ActionListener, KeyListene
 		buttonBox.add(shoot);
 
 		return buttonBox;
-
 	}
 
 	public KeyEvent getKey() {
@@ -163,20 +189,11 @@ public class SettingButton extends JButton implements ActionListener, KeyListene
 	@Override
 	public void keyPressed(KeyEvent e) {
 		keyPressed = e;
-		
 		System.out.println("teste");
-
 	}
 
 	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
+	public void keyReleased(KeyEvent e) {}
 	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-
-	}
+	public void keyTyped(KeyEvent e) {}
 }

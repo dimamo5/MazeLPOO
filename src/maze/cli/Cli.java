@@ -17,7 +17,7 @@ public class Cli {
 
 	public void playGame() {
 
-		char comando;
+		//char comando;
 
 		imprimeTabuleiro(labirinto.getTabuleiro());
 
@@ -27,9 +27,9 @@ public class Cli {
 
 			labirinto.updateDragons();
 
+			labirinto.refreshTabuleiro();
 			imprimeTabuleiro(labirinto.getTabuleiro());
 			imprimeEquips(labirinto.getHeroi());
-
 		}
 		// rotina de game over
 		imprimeTabuleiro(labirinto.getTabuleiro());

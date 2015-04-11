@@ -88,13 +88,11 @@ public class BoardGame extends JPanel implements KeyListener {
 				int xi, yi;
 				xi = j * TILESIZE;
 				yi = i * TILESIZE;
-
+				
+				g.drawImage(floor, xi, yi, TILESIZE, TILESIZE, null);
 				g.drawImage(img, xi, yi, TILESIZE, TILESIZE, null);
 			}
 		}
-
-		//g.dispose();
-
 	}
 
 	public void loadImages() {
@@ -140,6 +138,8 @@ public class BoardGame extends JPanel implements KeyListener {
 
 		nrDardos.setText("Dardos = " + lab.getHeroi().getNrDardos());
 
+		lab.refreshTabuleiro();
+		
 		repaint();
 
 		if (lab.getHeroi().getActive() == false) {

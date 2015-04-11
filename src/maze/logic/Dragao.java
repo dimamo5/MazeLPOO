@@ -1,8 +1,8 @@
 package maze.logic;
 
-import java.io.Serializable;
 import java.util.Random;
 
+@SuppressWarnings("serial")
 public class Dragao extends Peca {
 
 	private final static int PROBDORMIR = 7; // Probabilidade de adormecer x10

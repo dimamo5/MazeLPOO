@@ -2,32 +2,18 @@ package maze.gui;
 
 import java.awt.EventQueue;
 
-import javax.imageio.ImageIO;
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JTextField;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 
 import javax.swing.AbstractAction;
-import javax.swing.Action;
 
 import maze.logic.*;
 
@@ -145,7 +131,7 @@ public class MazeGui {
 
 		customMaze.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				lab=new Labirinto();
+				lab = new Labirinto();
 				startCustomMaze();
 			}
 		});
@@ -158,35 +144,49 @@ public class MazeGui {
 	public void startMaze() {
 		frame.setMinimumSize(new Dimension(10 + settings.getMazeSize() * BoardGame.TILESIZE, 90 + settings.getMazeSize() * BoardGame.TILESIZE));
 
+		if (jogoPanel != null) {
+			frame.remove(jogoPanel);
+			frame.validate();
+			frame.repaint();
+		}
+
 		jogoPanel = new BoardGame(lab, settings);
 		frame.getContentPane().add(jogoPanel);
 
 		jogoPanel.setBounds(0, 50, settings.getMazeSize() * BoardGame.TILESIZE, settings.getMazeSize() * BoardGame.TILESIZE);
-		System.out.println(jogoPanel.getWidth()+"  "+jogoPanel.getHeight());
+
 		panelMenu.setBounds(0, 0, frame.getWidth(), 50);
 
 		jogoPanel.requestFocus();
 		jogoPanel.repaint();
-
 		frame.pack();
 
-		System.out.println("Novo Jogo");
 	}
 
 	public void startCustomMaze() {
-		frame.setMinimumSize(new Dimension(10 + settings.getMazeSize() * BoardGame.TILESIZE, 90 + settings.getMazeSize() * BoardGame.TILESIZE));
+		frame.setMinimumSize(new Dimension(10 + settings.getMazeSize() * BoardGame.TILESIZE + BoardGame.TILESIZE, 90 + settings.getMazeSize()
+				* BoardGame.TILESIZE));
 
-		jogoPanel = new BoardGame(lab, settings);
+		if (jogoPanel != null) {
+			frame.remove(jogoPanel);
+			frame.validate();
+			frame.repaint();
+		}
+
+		jogoPanel = new BoardGameCustom(lab, settings);
+		jogoPanel.setBounds(0, 50, frame.getWidth(), frame.getHeight());
+		jogoPanel.setMinimumSize(new Dimension(settings.getMazeSize() * BoardGame.TILESIZE + BoardGame.TILESIZE, settings.getMazeSize()
+				* BoardGame.TILESIZE));
+
 		frame.getContentPane().add(jogoPanel);
 
-		jogoPanel.setBounds(0, 50, settings.getMazeSize() * BoardGame.TILESIZE, settings.getMazeSize() * BoardGame.TILESIZE);
-		
 		panelMenu.setBounds(0, 0, frame.getWidth(), 50);
+
+		// frame.pack();
 
 		jogoPanel.requestFocus();
 		jogoPanel.repaint();
 
-		frame.pack();
 	}
 
 	private class SwingAction extends AbstractAction {

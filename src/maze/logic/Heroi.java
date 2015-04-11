@@ -2,6 +2,7 @@ package maze.logic;
 
 import java.io.Serializable;
 
+@SuppressWarnings("serial")
 public class Heroi extends Peca implements Serializable{
 
 	private int nrDardos = 0;

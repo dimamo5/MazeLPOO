@@ -2,10 +2,12 @@ package maze.logic;
 
 import java.io.Serializable;
 
+@SuppressWarnings("serial")
 public class Tabuleiro implements Serializable{
 	
 	private char[][] tab;
 	Pos exit;
+	//boolean exit_active = false;
 	private int tamanho;
 
 	public Tabuleiro(int n) {

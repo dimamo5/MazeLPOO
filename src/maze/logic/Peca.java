@@ -2,6 +2,7 @@ package maze.logic;
 
 import java.io.Serializable;
 
+@SuppressWarnings("serial")
 public class Peca implements Serializable{
 
 	private Pos pos;
@@ -15,6 +16,9 @@ public class Peca implements Serializable{
 
 	public Pos getPos() {
 		return pos;
+	}
+	public void setPos(Pos p){
+		pos=p;
 	}
 
 	public void move(int x, int y) {
