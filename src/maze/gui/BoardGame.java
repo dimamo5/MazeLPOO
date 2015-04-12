@@ -129,13 +129,13 @@ public class BoardGame extends JPanel implements KeyListener {
 			lab.moveLeft();
 		} else if (e.getKeyCode() == set.getRight()) {
 			lab.moveRight();
-		} else if (e.getKeyCode() == set.getShotUp()) {
+		} else if (e.getKeyCode() == set.getShootUp()) {
 			lab.shotDardo('w');
-		} else if (e.getKeyCode() == set.getShotDown()) {
+		} else if (e.getKeyCode() == set.getShootDown()) {
 			lab.shotDardo('s');
-		} else if (e.getKeyCode() == set.getShotLeft()) {
+		} else if (e.getKeyCode() == set.getShootLeft()) {
 			lab.shotDardo('a');
-		} else if (e.getKeyCode() == set.getShotRigth()) {
+		} else if (e.getKeyCode() == set.getShootRigth()) {
 			lab.shotDardo('d');
 		}
 
@@ -146,15 +146,6 @@ public class BoardGame extends JPanel implements KeyListener {
 		lab.refreshTabuleiro();
 
 		repaint();
-		
-//		for (int i = 0; i < lab.getTabuleiro().getTamanho(); i++) {
-//
-//			for (int j = 0; j < lab.getTabuleiro().getTamanho(); j++) {
-//				System.out.print(lab.getTabuleiro().getTab()[i][j] + " ");
-//			}
-//
-//			System.out.print("\n");
-//		}
 
 		if (lab.getHeroi().getActive() == false) {
 			// lab=null;

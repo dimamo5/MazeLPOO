@@ -5,10 +5,9 @@ import java.awt.event.KeyEvent;
 public class Settings {
 	private int mazeSize = 15, numDragons = 3, mazeType = 1;
 	private char typeDragons = 'p';
-	private int up=KeyEvent.VK_UP, down=KeyEvent.VK_DOWN, left=KeyEvent.VK_LEFT,right=KeyEvent.VK_RIGHT,shotUp=KeyEvent.VK_W,
-			shotDown=KeyEvent.VK_S,shotLeft=KeyEvent.VK_A,shotRigth=KeyEvent.VK_D;
-	
-	
+	private int up = KeyEvent.VK_UP, down = KeyEvent.VK_DOWN, left = KeyEvent.VK_LEFT, right = KeyEvent.VK_RIGHT, shootUp = KeyEvent.VK_W,
+			shootDown = KeyEvent.VK_S, shootLeft = KeyEvent.VK_A, shootRigth = KeyEvent.VK_D;
+
 	public int getUp() {
 		return up;
 	}
@@ -40,7 +39,6 @@ public class Settings {
 	public void setRight(int right) {
 		this.right = right;
 	}
-
 
 	public int getMazeSize() {
 		return mazeSize;
@@ -74,36 +72,36 @@ public class Settings {
 		this.typeDragons = typeDragons;
 	}
 
-	public int getShotRigth() {
-		return shotRigth;
+	public int getShootRigth() {
+		return shootRigth;
 	}
 
-	public void setShotRigth(int shotRigth) {
-		this.shotRigth = shotRigth;
+	public void setShootRigth(int shootRigth) {
+		this.shootRigth = shootRigth;
 	}
 
-	public int getShotLeft() {
-		return shotLeft;
+	public int getShootLeft() {
+		return shootLeft;
 	}
 
-	public void setShotLeft(int shotLeft) {
-		this.shotLeft = shotLeft;
+	public void setShootLeft(int shootLeft) {
+		this.shootLeft = shootLeft;
 	}
 
-	public int getShotDown() {
-		return shotDown;
+	public int getShootDown() {
+		return shootDown;
 	}
 
-	public void setShotDown(int shotDown) {
-		this.shotDown = shotDown;
+	public void setShootDown(int shootDown) {
+		this.shootDown = shootDown;
 	}
 
-	public int getShotUp() {
-		return shotUp;
+	public int getShootUp() {
+		return shootUp;
 	}
 
-	public void setShotUp(int shotUp) {
-		this.shotUp = shotUp;
+	public void setShootUp(int shootUp) {
+		this.shootUp = shootUp;
 	}
 
 }

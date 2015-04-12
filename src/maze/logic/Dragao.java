@@ -13,6 +13,12 @@ public class Dragao extends Peca {
 	private final char status; // Dragao: P-Parado A- Aleatorio
 								// Z-Aleatorio/dormir
 
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 * @param status
+	 */
 	public Dragao(int x, int y, char status) {
 		super(x, y, 'D');
 		this.status = status;

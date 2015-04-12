@@ -1,7 +1,6 @@
 package maze.logic;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Random;
 
 import maze.cli.Cli;

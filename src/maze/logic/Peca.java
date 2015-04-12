@@ -3,41 +3,93 @@ package maze.logic;
 import java.io.Serializable;
 
 @SuppressWarnings("serial")
-public class Peca implements Serializable{
+public class Peca implements Serializable {
 
 	private Pos pos;
 	private char sigla;
 	private Boolean active = true;
 
+	/**
+	 * Cria uma Peca
+	 * 
+	 * @param x
+	 *            Coordenada Horizontal
+	 * @param y
+	 *            Coordenada Vertical
+	 * @param sigla
+	 *            Silga da Peca
+	 */
 	public Peca(int x, int y, char sigla) {
 		pos = new Pos(x, y);
 		this.sigla = sigla;
 	}
 
+	/**
+	 * Getter da Posicao da Peca
+	 * 
+	 * @return Pos da Peca
+	 */
 	public Pos getPos() {
 		return pos;
 	}
-	public void setPos(Pos p){
-		pos=p;
+
+	/**
+	 * Setter da Posicao da Peca
+	 * 
+	 * @param p
+	 */
+	public void setPos(Pos p) {
+		pos = p;
 	}
 
+	/**
+	 * Move uma Peca para as coordenadas
+	 * 
+	 * @param x
+	 *            Nova Coordenada Horizontal
+	 * @param y
+	 *            Nova Coordenada vertical
+	 */
 	public void move(int x, int y) {
 		this.pos.setX(x);
 		this.pos.setY(y);
 	}
 
+	/**
+	 * Getter Sigla da Peca
+	 * 
+	 * @return Sigla da Peca
+	 */
 	public char getSigla() {
 		return sigla;
 	}
 
+	/**
+	 * Setter da Sigla da Peca
+	 * 
+	 * @param sigla
+	 *            Nova Sigla
+	 */
 	public void setSigla(char sigla) {
 		this.sigla = sigla;
 	}
 
+	/**
+	 * Getter Peca Activa
+	 * 
+	 * @return True- Activa False-Inativa
+	 */
 	public boolean getActive() {
 		return active;
 	}
 
+	/**
+	 * Verifica se um Peca esta na mesma posicao de outra
+	 * 
+	 * @param p
+	 *            Peca a comparar
+	 * @return True-Colide False- Não colide
+	 */
 	public boolean colide(Peca p) {
 		if (this.getPos().getX() == p.getPos().getX() && this.getPos().getY() == p.getPos().getY()) {
 			return true;
@@ -45,10 +97,26 @@ public class Peca implements Serializable{
 			return false;
 	}
 
+	/**
+	 * Setter Active
+	 * 
+	 * @param active
+	 */
 	public void setActive(Boolean active) {
 		this.active = active;
 	}
 
+	/**
+	 * Verifica se um peca tem visao de outra com um determinado alcance
+	 * 
+	 * @param p
+	 *            Peca a ser vista
+	 * @param tab
+	 *            Tabuleiro de jogo
+	 * @param alcance
+	 *            Distancia Maxima que pode ser avistada
+	 * @return True - Consegue ver False -Não consegue ver
+	 */
 	public boolean ver(Peca p, Tabuleiro tab, int alcance) {
 
 		int pos;
@@ -73,7 +141,8 @@ public class Peca implements Serializable{
 				}
 			}
 
-		} else if (p.getPos().getX() == this.getPos().getX()) { // Percorre Verticalmente
+		} else if (p.getPos().getX() == this.getPos().getX()) { // Percorre
+																// Verticalmente
 
 			if (Math.abs(this.getPos().getY() - p.getPos().getY()) < alcance) {
 				alcance = Math.abs(this.getPos().getY() - p.getPos().getY());

@@ -21,10 +21,8 @@ import javax.swing.event.ChangeListener;
 @SuppressWarnings("serial")
 public class SettingButton extends JButton implements ActionListener, KeyListener {
 	private Settings settings;
-	private KeyEvent keyPressed;
 	private JDialog setupWindow;
-	JButton upKey;
-	JButton lastPressed;
+	private JButton lastButtonPressed;
 
 	public SettingButton(String n, Settings settings) {
 		this.setText(n);
@@ -148,53 +146,88 @@ public class SettingButton extends JButton implements ActionListener, KeyListene
 
 	public JPanel createKeyBidings() {
 		JPanel buttonBox = new JPanel();
+		buttonBox.setLayout(new GridLayout(4, 2));
 
-		upKey = new JButton("UP=" + KeyEvent.getKeyText(settings.getUp()));
+		JButton upKey = new JButton("UP=" + KeyEvent.getKeyText(settings.getUp()));
+		upKey.setName("UP");
 		JButton downKey = new JButton("DOWN=" + KeyEvent.getKeyText(settings.getDown()));
+		downKey.setName("DOWN");
 		JButton leftKey = new JButton("LEFT=" + KeyEvent.getKeyText(settings.getLeft()));
+		leftKey.setName("LEFT");
 		JButton rigthKey = new JButton("RIGTH=" + KeyEvent.getKeyText(settings.getRight()));
-		JButton shoot = new JButton("SHOOT");
+		rigthKey.setName("RIGTH");
+		JButton shootUp = new JButton("SHOOT UP=" + KeyEvent.getKeyText(settings.getShootUp()));
+		shootUp.setName("SHOOT UP");
+		JButton shootDown = new JButton("SHOOT DOWN=" + KeyEvent.getKeyText(settings.getShootDown()));
+		shootDown.setName("SHOOT DOWN");
+		JButton shootLeft = new JButton("SHOOT LEFT=" + KeyEvent.getKeyText(settings.getShootLeft()));
+		shootLeft.setName("SHOOT LEFT");
+		JButton shootRigth = new JButton("SHOOT RIGTH=" + KeyEvent.getKeyText(settings.getShootRigth()));
+		shootRigth.setName("SHOOT RIGTH");
+
+		ActionListener updateKeyPressed = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				lastButtonPressed = (JButton) e.getSource();
+			}
+		};
 
 		upKey.addKeyListener(this);
 		downKey.addKeyListener(this);
 		leftKey.addKeyListener(this);
 		rigthKey.addKeyListener(this);
-		shoot.addKeyListener(this);
+		shootUp.addKeyListener(this);
+		shootDown.addKeyListener(this);
+		shootLeft.addKeyListener(this);
+		shootRigth.addKeyListener(this);
 
-		upKey.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				lastPressed = upKey;
-
-				// if (keyPressed != null) {
-				// settings.setUp(keyPressed.getKeyCode());
-				// upKey.setText("UP=" + keyPressed.getKeyChar());
-				// }
-			}
-		});
+		upKey.addActionListener(updateKeyPressed);
+		downKey.addActionListener(updateKeyPressed);
+		leftKey.addActionListener(updateKeyPressed);
+		rigthKey.addActionListener(updateKeyPressed);
+		shootUp.addActionListener(updateKeyPressed);
+		shootDown.addActionListener(updateKeyPressed);
+		shootLeft.addActionListener(updateKeyPressed);
+		shootRigth.addActionListener(updateKeyPressed);
 
 		buttonBox.add(upKey);
 		buttonBox.add(downKey);
 		buttonBox.add(leftKey);
 		buttonBox.add(rigthKey);
-		buttonBox.add(shoot);
+		buttonBox.add(shootUp);
+		buttonBox.add(shootDown);
+		buttonBox.add(shootLeft);
+		buttonBox.add(shootRigth);
 
 		return buttonBox;
 	}
 
-	public KeyEvent getKey() {
-		return keyPressed;
-	}
-
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if (lastPressed == null) {
+		if (lastButtonPressed == null) {
 			return;
 		} else {
-			settings.setUp(e.getKeyCode());
-			upKey.setText("UP=" + e.getKeyChar());
+			if (lastButtonPressed.getName().equals("UP")) {
+				settings.setUp(e.getKeyCode());
+			} else if (lastButtonPressed.getName().equals("DOWN")) {
+				settings.setDown(e.getKeyCode());
+			} else if (lastButtonPressed.getName().equals("LEFT")) {
+				settings.setLeft(e.getKeyCode());
+			} else if (lastButtonPressed.getName().equals("RIGTH")) {
+				settings.setRight(e.getKeyCode());
+			} else if (lastButtonPressed.getName().equals("SHOOT UP")) {
+				settings.setShootUp(e.getKeyCode());
+			} else if (lastButtonPressed.getName().equals("SHOOT DOWN")) {
+				settings.setShootDown(e.getKeyCode());
+			} else if (lastButtonPressed.getName().equals("SHOOT LEFT")) {
+				settings.setShootLeft(e.getKeyCode());
+			} else if (lastButtonPressed.getName().equals("SHOOT RIGTH")) {
+				settings.setShootRigth(e.getKeyCode());
+			}
+
+			lastButtonPressed.setText(lastButtonPressed.getName() + "=" + KeyEvent.getKeyText(e.getKeyCode()));
+
 		}
-		keyPressed = e;
 	}
 
 	@Override
