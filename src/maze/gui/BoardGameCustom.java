@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -27,9 +28,11 @@ import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
 public class BoardGameCustom extends JPanel implements MouseListener, MouseMotionListener {
+	
 	private JPanel options;
 	private Labirinto lab;
 	private Settings set;
+	
 	private char selected = 'X';
 
 	public static final int TILESIZE = 40;
@@ -47,11 +50,14 @@ public class BoardGameCustom extends JPanel implements MouseListener, MouseMotio
 		this.set = settings;
 		this.setVisible(true);
 		initCustomMaze();
-
+		
+		
 		options = new JPanel();
 		options.setLayout(new GridLayout(8, 1));
 		options.setBounds(settings.getMazeSize() * BoardGame.TILESIZE, 0, TILESIZE, 6 * TILESIZE);
-
+		options.setVisible(true);
+		options.setEnabled(true);
+		
 		JButton heroiBtn = new JButton();
 		heroiBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -126,6 +132,7 @@ public class BoardGameCustom extends JPanel implements MouseListener, MouseMotio
 		options.add(floorBtn);
 
 		this.add(options);
+		this.repaint();
 
 	}
 
@@ -249,6 +256,7 @@ public class BoardGameCustom extends JPanel implements MouseListener, MouseMotio
 		lab.getHeroi().setPos(new Pos(1, 1));
 		lab.getHeroi().setActive(false);
 		lab.getEspada().setPos(new Pos(1, 1));
+		lab.getEspada().setActive(false);
 		lab.getEscudo().setPos(new Pos(1, 1));
 		lab.getEscudo().setActive(false);
 	}
@@ -262,7 +270,7 @@ public class BoardGameCustom extends JPanel implements MouseListener, MouseMotio
 			lab.getEspada().setActive(false);
 		} else if (c == 'P') {
 			lab.getEscudo().setActive(false);
-		} else if (c == 'D') {
+		} else if (c == 'D' || c == 'Z') {
 			for (Dragao d : dragoes) {
 				if (d.getPos().getX() == x && d.getPos().getY() == y) {
 					d.setActive(false);
@@ -282,6 +290,8 @@ public class BoardGameCustom extends JPanel implements MouseListener, MouseMotio
 	public void mouseDragged(MouseEvent e) {
 		int coordX = e.getX() / TILESIZE;
 		int coordY = e.getY() / TILESIZE;
+
+		System.out.println(lab.getHeroi().getActive());
 
 		if (coordX >= lab.getTabuleiro().getTamanho() || coordY >= lab.getTabuleiro().getTamanho()) {
 			return;
@@ -308,6 +318,8 @@ public class BoardGameCustom extends JPanel implements MouseListener, MouseMotio
 
 		if (selected == 'H') {
 			checkPosTab(lab.getTabuleiro().getTab()[coordY][coordX], coordX, coordY);
+			
+			if(lab.getHeroi().getActive())
 			lab.getTabuleiro().setChar(lab.getHeroi().getPos().getX(), lab.getHeroi().getPos().getY(), ' ');
 
 			if (!lab.getHeroi().getActive())
@@ -317,7 +329,9 @@ public class BoardGameCustom extends JPanel implements MouseListener, MouseMotio
 			lab.getTabuleiro().setChar(coordX, coordY, selected);
 		} else if (selected == 'P') {
 			checkPosTab(lab.getTabuleiro().getTab()[coordY][coordX], coordX, coordY);
-			lab.getTabuleiro().setChar(lab.getEscudo().getPos().getX(), lab.getEscudo().getPos().getY(), ' ');
+			
+			if(lab.getEscudo().getActive())
+				lab.getTabuleiro().setChar(lab.getEscudo().getPos().getX(), lab.getEscudo().getPos().getY(), ' ');
 
 			if (!lab.getEscudo().getActive())
 				lab.getEscudo().setActive(true);
@@ -326,7 +340,9 @@ public class BoardGameCustom extends JPanel implements MouseListener, MouseMotio
 			lab.getTabuleiro().setChar(coordX, coordY, selected);
 		} else if (selected == 'E') {
 			checkPosTab(lab.getTabuleiro().getTab()[coordY][coordX], coordX, coordY);
-			lab.getTabuleiro().setChar(lab.getEspada().getPos().getX(), lab.getEspada().getPos().getY(), ' ');
+			
+			if(lab.getEspada().getActive())
+				lab.getTabuleiro().setChar(lab.getEspada().getPos().getX(), lab.getEspada().getPos().getY(), ' ');
 
 			if (!lab.getEspada().getActive())
 				lab.getEspada().setActive(true);
@@ -341,8 +357,6 @@ public class BoardGameCustom extends JPanel implements MouseListener, MouseMotio
 			boolean reused = false;
 			for (Dragao d : dragoes) {
 				if (!d.getActive()) {
-					// lab.getTabuleiro().setChar(d.getPos().getX(),
-					// d.getPos().getY(), ' ');
 					reused = true;
 					d.setActive(true);
 					d.setPos(new Pos(coordX, coordY));
@@ -350,7 +364,7 @@ public class BoardGameCustom extends JPanel implements MouseListener, MouseMotio
 			}
 
 			if (!reused) {
-				Dragao d = new Dragao(coordX, coordY, selected);
+				Dragao d = new Dragao(coordX, coordY, set.getTypeDragons());
 				dragoes.add(d);
 			}
 			lab.getTabuleiro().setChar(coordX, coordY, selected);
@@ -362,8 +376,6 @@ public class BoardGameCustom extends JPanel implements MouseListener, MouseMotio
 			boolean reused = false;
 			for (Peca d : dardos) {
 				if (!d.getActive()) {
-					// lab.getTabuleiro().setChar(d.getPos().getX(),
-					// d.getPos().getY(), ' ');
 					reused = true;
 					d.setActive(true);
 					d.setPos(new Pos(coordX, coordY));
@@ -379,8 +391,41 @@ public class BoardGameCustom extends JPanel implements MouseListener, MouseMotio
 		repaint();
 	}
 
+	public boolean mazeEditDone() {
+		return lab.getHeroi().getActive();
+	}
+
+	public void mazeEditSet() {
+		Dragao drags[];
+		Peca dards[];
+
+		Iterator<Dragao> iteDrag=dragoes.iterator();
+		
+		while(iteDrag.hasNext()){
+			if(iteDrag.next().getActive()==false){
+				iteDrag.remove();
+			}
+		}
+		
+
+		drags = new Dragao[dragoes.size()];
+		dragoes.toArray(drags);
+		lab.setDragoes(drags);
+		// =====
+		Iterator<Peca> iteDard=dardos.iterator();
+		
+		while(iteDard.hasNext()){
+			if(iteDard.next().getActive()==false){
+				iteDard.remove();
+			}
+		}
+
+		dards = new Peca[dardos.size()];
+		dardos.toArray(dards);
+		lab.setDardos(dards);
+	}
+
 	@Override
 	public void mouseMoved(MouseEvent e) {
-
 	}
 }

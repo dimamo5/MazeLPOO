@@ -21,6 +21,7 @@ public class Testing {
 
 		cliTest = new CliTesting();
 
+		lab.setEscudo(new Peca(1,0,'P'));
 		lab.setTabuleiro(new ManualBuilder().build());
 
 		lab.setEspada(new Peca(1, 7, 'E'));
@@ -45,19 +46,35 @@ public class Testing {
 
 	@Test
 	public void testMove() {
+		int ret = 0;		
+		lab.setHeroi(new Heroi(0,0));
+		
+		ret = lab.moveUp();
+		assertEquals(1,ret);
+		ret = lab.moveDown();
+		
+		lab.getHeroi().getPos().setX(9);
+		
+		assertEquals(1,ret);
+		ret = lab.moveLeft();
+		assertEquals(1,ret);
+		ret = lab.moveRight();
+		assertEquals(1,ret);
+		
 		lab.setHeroi(new Heroi(1, 1));
 		char movs[] = { 's', 's', 's', 's', 's', 's', 'w', 'w', 'w', 'w', 'w', 'w', 'd', 'd', 'd', 'd', 'd' };
-
+		
 		for (int i = 0; i < movs.length; i++) {
 
 			if (movs[i] == 'w') {
-				lab.moveUp();
+				ret = lab.moveUp();
+				assertEquals(0,ret);
 			} else if (movs[i] == 's') {
 				lab.moveDown();
-			} else if (movs[i] == 'a') {
-				lab.moveLeft();
+			//	assertEquals(0,ret);
 			} else if (movs[i] == 'd') {
 				lab.moveRight();
+				assertEquals(0,ret);
 			}
 		}
 
@@ -70,6 +87,10 @@ public class Testing {
 		lab.setHeroi(new Heroi(1, 1));
 		char movs[] = { 's', 's', 's', 's', 's', 's' };
 
+		lab.refreshTabuleiro();
+		assertEquals('E', lab.getTabuleiro().getTab()[7][1]);
+		assertEquals('D', lab.getTabuleiro().getTab()[5][4]);
+		
 		for (int i = 0; i < movs.length; i++) {
 
 			if (movs[i] == 'w') {
@@ -85,7 +106,7 @@ public class Testing {
 			lab.refreshTabuleiro();
 		}
 		cliTest.imprimeTabuleiro(lab.getTabuleiro());
-
+		
 		assertEquals(true, ((Heroi) lab.getHeroi()).isArmed());
 		assertEquals('A', lab.getHeroi().getSigla());
 	}
@@ -168,6 +189,9 @@ public class Testing {
 			lab.refreshTabuleiro();
 			lab.checkCollision();
 		}
+		assertEquals(' ', lab.getTabuleiro().getTab()[1][1]);
+		
+		
 		cliTest.imprimeTabuleiro(lab.getTabuleiro());
 
 		assertEquals(false, lab.getHeroi().getActive());
@@ -240,6 +264,11 @@ public class Testing {
 		lab.setDardos(Dardos);
 		char movs[] = { 'd', 'd', 'd' };
 
+		lab.refreshTabuleiro();
+		assertEquals('«', lab.getTabuleiro().getTab()[1][4]);
+		assertEquals('«', lab.getTabuleiro().getTab()[1][3]);
+		
+		
 		for (int i = 0; i < movs.length; i++) {
 
 			if (movs[i] == 'w') {
@@ -304,6 +333,11 @@ public class Testing {
 		lab.setHeroi(new Heroi(1, 1));
 		Peca escudo = new Peca(2, 1, 'P');
 		lab.setEscudo(escudo);
+		
+		lab.refreshTabuleiro();
+		assertEquals(' ', lab.getTabuleiro().getTab()[0][0]);
+		assertEquals('P', lab.getTabuleiro().getTab()[1][2]);
+		
 		lab.moveRight();
 		lab.checkCollision();
 

@@ -26,6 +26,7 @@ public class MazeGui {
 	private Labirinto lab;
 	private Settings settings = new Settings();
 	private MazeIOFile io = new MazeIOFile(new File("resources/save.dat"), lab);
+	private boolean customMaze = false;
 
 	/**
 	 * Launch the application.
@@ -70,9 +71,18 @@ public class MazeGui {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (JOptionPane.showConfirmDialog(null, "Start Game", "Start Game?", JOptionPane.YES_NO_OPTION) == JOptionPane.OK_OPTION) {
+					if (customMaze) {
+						if (!((BoardGameCustom) jogoPanel).mazeEditDone()) {
+							JOptionPane.showMessageDialog(null, "Labirinto mal construido", "Erro", JOptionPane.ERROR_MESSAGE);
+						} else {
+							((BoardGameCustom) jogoPanel).mazeEditSet();
+							startMaze();
+						}
+					} else {
+						lab = new Labirinto(settings.getNumDragons(), settings.getTypeDragons(), settings.getMazeType(), settings.getMazeSize());
+						startMaze();
+					}
 
-					lab = new Labirinto(settings.getNumDragons(), settings.getTypeDragons(), settings.getMazeType(), settings.getMazeSize());
-					startMaze();
 				}
 
 			}
@@ -99,7 +109,7 @@ public class MazeGui {
 
 		save.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (lab == null) {
+				if (lab == null || jogoPanel instanceof BoardGameCustom) {
 					JOptionPane.showMessageDialog(null, "Nenhum labirinto para guardar", "Erro", JOptionPane.ERROR_MESSAGE);
 				} else {
 					System.out.println("Guardou o jogo");
@@ -142,6 +152,9 @@ public class MazeGui {
 	}
 
 	public void startMaze() {
+
+		customMaze = false;
+
 		frame.setMinimumSize(new Dimension(10 + settings.getMazeSize() * BoardGame.TILESIZE, 90 + settings.getMazeSize() * BoardGame.TILESIZE));
 
 		if (jogoPanel != null) {
@@ -157,13 +170,19 @@ public class MazeGui {
 
 		panelMenu.setBounds(0, 0, frame.getWidth(), 50);
 
+		frame.pack();
+		
 		jogoPanel.requestFocus();
 		jogoPanel.repaint();
-		frame.pack();
+
+		
 
 	}
 
 	public void startCustomMaze() {
+
+		customMaze = true;
+
 		frame.setMinimumSize(new Dimension(10 + settings.getMazeSize() * BoardGame.TILESIZE + BoardGame.TILESIZE, 90 + settings.getMazeSize()
 				* BoardGame.TILESIZE));
 
@@ -182,7 +201,7 @@ public class MazeGui {
 
 		panelMenu.setBounds(0, 0, frame.getWidth(), 50);
 
-		// frame.pack();
+		 frame.pack();
 
 		jogoPanel.requestFocus();
 		jogoPanel.repaint();

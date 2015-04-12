@@ -41,8 +41,6 @@ public class BoardGame extends JPanel implements KeyListener {
 		nrDardos = new JLabel("Dardos = " + lab.getHeroi().getNrDardos());
 		nrDardos.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		this.add(nrDardos);
-		//nrDardos.setBounds(this.getWidth() - 40, this.getHeight() - 20, 40, 20);
-		//nrDardos.setBounds(50, 50, 40, 20);
 		nrDardos.setForeground(Color.WHITE);
 		nrDardos.setVisible(true);
 	}
