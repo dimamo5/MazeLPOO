@@ -141,7 +141,7 @@ public class Labirinto implements Serializable {
 
 		tabuleiro.setChar(heroi.getPos().getX(), heroi.getPos().getY(), heroi.getSigla());
 
-		if (tabuleiro.getTab()[escudo.getPos().getY()][escudo.getPos().getX()] == ' ' && escudo.getActive() ) {
+		if (tabuleiro.getTab()[escudo.getPos().getY()][escudo.getPos().getX()] == ' ' && escudo.getActive()) {
 
 			tabuleiro.setChar(escudo.getPos().getX(), escudo.getPos().getY(), escudo.getSigla());
 		}
@@ -446,50 +446,21 @@ public class Labirinto implements Serializable {
 				&& tabuleiro.getTab()[dragao.getPos().getY() + 1][dragao.getPos().getX()] != 'Z'
 				&& dragao.getPos().getY() + 1 < tabuleiro.getTamanho() - 1) {
 
-			// if (coincide) {
-			// coincide = false;
-			// tabuleiro.setChar(dragao.getPos().getX(), dragao.getPos().getY(),
-			// 'E');
-			// } else
-			// tabuleiro.setChar(dragao.getPos().getX(), dragao.getPos().getY(),
-			// ' ');
-
 			dragao.getPos().setY(dragao.getPos().getY() + 1);
-			// tabuleiro.setChar(dragao.getPos().getX(), dragao.getPos().getY(),
-			// dragao.getSigla());
 
 		} else if (dir == 2 && tabuleiro.getTab()[dragao.getPos().getY()][dragao.getPos().getX() - 1] != 'X'
 				&& tabuleiro.getTab()[dragao.getPos().getY()][dragao.getPos().getX() - 1] != 'D'
 				&& tabuleiro.getTab()[dragao.getPos().getY()][dragao.getPos().getX() - 1] != 'S'
 				&& tabuleiro.getTab()[dragao.getPos().getY()][dragao.getPos().getX() - 1] != 'Z' && dragao.getPos().getX() - 1 > 0) {
 
-			// if (coincide) {
-			// coincide = false;
-			// tabuleiro.setChar(dragao.getPos().getX(), dragao.getPos().getY(),
-			// dragao.getSigla());
-			// } else
-			// tabuleiro.setChar(dragao.getPos().getX(), dragao.getPos().getY(),
-			// ' ');
 			dragao.getPos().setX(dragao.getPos().getX() - 1);
-			// tabuleiro.setChar(dragao.getPos().getX(), dragao.getPos().getY(),
-			// dragao.getSigla());
 
 		} else if (dir == 3 && tabuleiro.getTab()[dragao.getPos().getY() - 1][dragao.getPos().getX()] != 'X'
 				&& tabuleiro.getTab()[dragao.getPos().getY() - 1][dragao.getPos().getX()] != 'D'
 				&& tabuleiro.getTab()[dragao.getPos().getY() - 1][dragao.getPos().getX()] != 'S'
 				&& tabuleiro.getTab()[dragao.getPos().getY() - 1][dragao.getPos().getX()] != 'Z' && dragao.getPos().getY() - 1 > 0) {
 
-			// if (coincide) {
-			// coincide = false;
-			// tabuleiro.setChar(dragao.getPos().getX(), dragao.getPos().getY(),
-			// 'E');
-			// } else
-			// tabuleiro.setChar(dragao.getPos().getX(), dragao.getPos().getY(),
-			// ' ');
-
 			dragao.getPos().setY(dragao.getPos().getY() - 1);
-			// tabuleiro.setChar(dragao.getPos().getX(), dragao.getPos().getY(),
-			// dragao.getSigla());
 		}
 	}
 

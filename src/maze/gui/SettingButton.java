@@ -21,8 +21,11 @@ import javax.swing.event.ChangeListener;
 @SuppressWarnings("serial")
 public class SettingButton extends JButton implements ActionListener, KeyListener {
 	private Settings settings;
+	
 	private KeyEvent keyPressed;
-
+	private JButton buttonPressed;
+	
+	
 	public SettingButton(String n, Settings settings) {
 		this.setText(n);
 		this.addActionListener(this);
@@ -133,7 +136,7 @@ public class SettingButton extends JButton implements ActionListener, KeyListene
 		});
 
 		setupWindow.add(new JLabel("Key Bindings"));
-
+		
 		setupWindow.add(createKeyBidings());
 
 		setupWindow.setVisible(true);
@@ -168,11 +171,11 @@ public class SettingButton extends JButton implements ActionListener, KeyListene
 					settings.setUp(keyPressed.getKeyCode());
 					upKey.setText("UP=" + keyPressed.getKeyChar());
 				}
-		
+				
 				System.out.println(settings.getUp());				
 			}
 		});
-
+		
 		buttonBox.add(upKey);
 		buttonBox.add(downKey);
 		buttonBox.add(leftKey);
@@ -189,7 +192,6 @@ public class SettingButton extends JButton implements ActionListener, KeyListene
 	@Override
 	public void keyPressed(KeyEvent e) {
 		keyPressed = e;
-		System.out.println("teste");
 	}
 
 	@Override
