@@ -1,6 +1,7 @@
 package maze.logic;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Random;
 
 import maze.cli.Cli;
@@ -21,10 +22,25 @@ public class Labirinto implements Serializable {
 	private Tabuleiro tabuleiro;
 
 	// construtor
-
+	/**
+	 * Construtor Vazio
+	 */
 	public Labirinto() {
 	}
 
+	/**
+	 * Contrutor principal do Maze
+	 * 
+	 * @param quantidadeDragao
+	 *            Numero de Dragoes do Maze
+	 * @param tipoDragao
+	 *            Diferentes tipos de dragao: P- Parado Z-Aleatorio/Dormir
+	 *            A-Aleatorio
+	 * @param mazeType
+	 *            1-Labirinto Automatico 0- Predefinido
+	 * @param mazeSize
+	 *            Tamanho do Labirinto
+	 */
 	public Labirinto(int quantidadeDragao, char tipoDragao, int mazeType, int mazeSize) {
 		IMazeBuilder mazeGenerator;
 
@@ -46,56 +62,121 @@ public class Labirinto implements Serializable {
 		initTabuleiro();
 	}
 
+	/**
+	 * Getter Dardos
+	 * 
+	 * @return
+	 */
 	public Peca[] getDardos() {
 		return dardos;
 	}
 
+	/**
+	 * Setter Dardos
+	 * 
+	 * @param dardos
+	 */
 	public void setDardos(Peca[] dardos) {
 		this.dardos = dardos;
 	}
 
+	/**
+	 * Getter Heroi
+	 * 
+	 * @return
+	 */
 	public Heroi getHeroi() {
 		return heroi;
 	}
 
+	/**
+	 * Setter Heroi
+	 * 
+	 * @param heroi
+	 */
 	public void setHeroi(Heroi heroi) {
 		this.heroi = heroi;
 	}
 
+	/**
+	 * Getter Espada
+	 * 
+	 * @return
+	 */
 	public Peca getEspada() {
 		return espada;
 	}
 
+	/**
+	 * Setter Espada
+	 * 
+	 * @param espada
+	 */
 	public void setEspada(Peca espada) {
 		this.espada = espada;
 	}
 
+	/**
+	 * Getter Dragoes
+	 * 
+	 * @return
+	 */
 	public Dragao[] getDragoes() {
 		return dragoes;
 	}
 
+	/**
+	 * Setter Dragoes
+	 * 
+	 * @param dragoes
+	 */
 	public void setDragoes(Dragao[] dragoes) {
 		this.dragoes = dragoes;
 	}
 
+	/**
+	 * Getter Tabuleiro
+	 * 
+	 * @return
+	 */
 	public Tabuleiro getTabuleiro() {
 		return tabuleiro;
 	}
 
+	/**
+	 * Setter Tabuleiro
+	 * 
+	 * @param tabuleiro
+	 */
 	public void setTabuleiro(Tabuleiro tabuleiro) {
 		this.tabuleiro = tabuleiro;
 	}
 
+	/**
+	 * Getter Escudo
+	 * 
+	 * @return
+	 */
 	public Peca getEscudo() {
 		return escudo;
 	}
 
+	/**
+	 * Setter Escudo
+	 * 
+	 * @param escudo
+	 */
 	public void setEscudo(Peca escudo) {
 		this.escudo = escudo;
 	}
 
 	// ==========================================================
 	// MAIN
+	/**
+	 * Inicia o Labirinto em modo Consola
+	 * 
+	 * @param args
+	 */
 	public static void main(String[] args) { // TODO: PODE ACONTECER O HEROI
 		// FAZER SPAWN ADJACENTE AO
 		// DRAGAO
@@ -103,7 +184,9 @@ public class Labirinto implements Serializable {
 	}
 
 	// ==========================================================
-
+	/**
+	 * Actualizaçao dasposições dos diferentes dragoes e possiveis colisoes
+	 */
 	public void updateDragons() {
 		for (Dragao d : dragoes) {
 			if (d.getActive()) {
@@ -121,6 +204,10 @@ public class Labirinto implements Serializable {
 
 	// repinta tabuleiro deixando apenas os X's tudo o resto fica ' '
 	// funcao usada na refreshTab
+
+	/**
+	 * Repinta o tabuleiro sem os elementos
+	 */
 	public void repaintBlanks() {
 
 		for (int i = 0; i < tabuleiro.getTamanho(); i++) {
@@ -135,13 +222,16 @@ public class Labirinto implements Serializable {
 	}
 
 	// redesenha elementos no caso de estes terem estado sobrepostos
+	/**
+	 * Redesenha o Tabuleiro e coloca os elementos
+	 */
 	public void refreshTabuleiro() {
 
 		this.repaintBlanks();
 
 		tabuleiro.setChar(heroi.getPos().getX(), heroi.getPos().getY(), heroi.getSigla());
 
-		if (tabuleiro.getTab()[escudo.getPos().getY()][escudo.getPos().getX()] == ' ' && escudo.getActive() ) {
+		if (tabuleiro.getTab()[escudo.getPos().getY()][escudo.getPos().getX()] == ' ' && escudo.getActive()) {
 
 			tabuleiro.setChar(escudo.getPos().getX(), escudo.getPos().getY(), escudo.getSigla());
 		}
@@ -165,7 +255,9 @@ public class Labirinto implements Serializable {
 		}
 	}
 
-	// inicializacao
+	/**
+	 * Inicializa as pecas do tabuleiro
+	 */
 	public void initTabuleiro() {
 
 		// boolean posicaoHeroiOK = false;
@@ -199,12 +291,16 @@ public class Labirinto implements Serializable {
 				}
 			}
 		}
+		refreshTabuleiro();
 	}
 
-	// atribui ï¿½s pecas coordenadas de posicoes aleatorias livres do tabuleiro
+	/**
+	 * Atribui coordenadas a uma peca
+	 * 
+	 * @param p
+	 *            Peca a serem atribuidas as coordenadas
+	 */
 	public void atribuiCoos(Peca p) {
-
-		// TODO verificar heroi adjacente dragao
 
 		Random r = new Random();
 		int x, y;
@@ -222,11 +318,14 @@ public class Labirinto implements Serializable {
 			}
 		}
 
-		tabuleiro.setChar(p.getPos().getX(), p.getPos().getY(), p.getSigla());
 	}
 
 	// =========
-
+	/**
+	 * Move o heroi para cima
+	 * 
+	 * @return 1 - Não conseguiu mover 0 - Moveu
+	 */
 	public int moveUp() { // heroi.pos(x,y) : heroi.posicao do heroi (H)
 
 		if (heroi.getPos().getY() == 0 || heroi.getPos().getY() >= tabuleiro.getTamanho() - 1) {
@@ -236,16 +335,16 @@ public class Labirinto implements Serializable {
 		if (tabuleiro.getTab()[heroi.getPos().getY() - 1][heroi.getPos().getX()] == 'X') {
 			return 1;
 		} else {
-			// tabuleiro.setChar(heroi.getPos().getX(), heroi.getPos().getY() -
-			// 1, heroi.getSigla());
-			// tabuleiro.setChar(heroi.getPos().getX(), heroi.getPos().getY(),
-			// ' ');
-
 			heroi.getPos().setY(heroi.getPos().getY() - 1);
 			return 0;
 		}
 	}
 
+	/**
+	 * * Move o heroi para baixo
+	 * 
+	 * @return 1 - Não conseguiu mover 0 - Moveu
+	 */
 	public int moveDown() { // heroi.pos(x,y) : heroi.posicao do heroi (H)
 
 		if (heroi.getPos().getY() >= tabuleiro.getTamanho() - 1 || heroi.getPos().getY() < 0) {
@@ -265,6 +364,11 @@ public class Labirinto implements Serializable {
 		}
 	}
 
+	/**
+	 * * Move o heroi para esquerda
+	 * 
+	 * @return 1 - Não conseguiu mover 0 - Moveu
+	 */
 	public int moveLeft() { // heroi.pos(x,y) : heroi.posicao do heroi (H)
 
 		if (heroi.getPos().getX() >= tabuleiro.getTamanho() - 1 || heroi.getPos().getX() < 0) {
@@ -284,6 +388,11 @@ public class Labirinto implements Serializable {
 		}
 	}
 
+	/**
+	 * * Move o heroi para Esquerda
+	 * 
+	 * @return 1 - Não conseguiu mover 0 - Moveu
+	 */
 	public int moveRight() { // heroi.pos(x,y) : heroi.posicao do heroi (H)
 
 		if (heroi.getPos().getX() >= tabuleiro.getTamanho() - 1 || heroi.getPos().getX() < 0) {
@@ -293,39 +402,24 @@ public class Labirinto implements Serializable {
 		if (tabuleiro.getTab()[heroi.getPos().getY()][heroi.getPos().getX() + 1] == 'X') {
 			return 1;
 		} else {
-			// tabuleiro.setChar(heroi.getPos().getX() + 1,
-			// heroi.getPos().getY(), heroi.getSigla());
-			// tabuleiro.setChar(heroi.getPos().getX(), heroi.getPos().getY(),
-			// ' ');
-
 			heroi.getPos().setX(heroi.getPos().getX() + 1);
 			return 0;
 		}
 	}
 
-	// =================================0
-
-	// verifica se o dragao e a espada coincidem, se sim troca a sigla para "F"
-	/*
-	 * public void checkCoincide() {
-	 * 
-	 * for (Dragao d : dragoes) { if (espada.colide(d)) { coincide = true;
-	 * tabuleiro.setChar(espada.getPos().getX(), espada.getPos().getY(), 'F'); }
-	 * } }
+	/**
+	 * Verifica colisoes entre os diferentes elementos do tabuleiro
 	 */
-
 	public void checkCollision() {
 
-		if (heroi.colide(espada)) {
-			// tabuleiro.setChar(heroi.getPos().getX(), heroi.getPos().getY(),
-			// 'A');
+		if (heroi.colide(espada) && espada.getActive()) {
 			espada.setActive(false);
 			heroi.setSigla('A');
 			heroi.setArmed(true);
 			espada.setActive(false);
 		}
 
-		if (heroi.colide(escudo)) {
+		if (heroi.colide(escudo) && escudo.getActive()) {
 			heroi.setShield(true);
 			escudo.setActive(false);
 		}
@@ -349,7 +443,6 @@ public class Labirinto implements Serializable {
 		if (heroi.getPos().getX() == tabuleiro.getExit().getX() && heroi.getPos().getY() == tabuleiro.getExit().getY()) {
 			heroi.setActive(false);
 		}
-		// checkCoincide();
 	}
 
 	public void checkDragao(Dragao dragao) {
@@ -380,35 +473,55 @@ public class Labirinto implements Serializable {
 			return;
 		}
 
+		heroi.removeNrDardos();
+
+		Dragao temp = null;
+
 		for (Dragao d : dragoes) {
+
+			if (!d.getActive())
+				continue;
+
 			if (heroi.ver(d, tabuleiro, tabuleiro.getTamanho())) {
+
+				if (temp == null) {
+					temp = d;
+					// continue;
+				}
+
 				int diffX = d.getPos().getX() - heroi.getPos().getX();
 				int diffY = d.getPos().getY() - heroi.getPos().getY();
+
 				if (diffX == 0) {
 					if (diffY < 0 && comando == 'w') {
-						d.setActive(false);
-						tabuleiro.setChar(d.getPos().getX(), d.getPos().getY(), ' ');
-						return;
+						if (d.getPos().getY() > temp.getPos().getY()) {
+							temp = d;
+						}
 					} else if (diffY > 0 && comando == 's') {
-						d.setActive(false);
-						tabuleiro.setChar(d.getPos().getX(), d.getPos().getY(), ' ');
-						return;
+						if (d.getPos().getY() < temp.getPos().getY()) {
+							temp = d;
+						}
 					}
 				}
+
 				if (diffY == 0) {
 					if (diffX < 0 && comando == 'a') {
-						d.setActive(false);
-						tabuleiro.setChar(d.getPos().getX(), d.getPos().getY(), ' ');
-						return;
+						if (d.getPos().getX() > temp.getPos().getX()) {
+							temp = d;
+						}
 					} else if (diffX > 0 && comando == 'd') {
-						d.setActive(false);
-						tabuleiro.setChar(d.getPos().getX(), d.getPos().getY(), ' ');
-						return;
+						if (d.getPos().getX() < temp.getPos().getX()) {
+							temp = d;
+						}
 					}
 				}
 			}
 		}
-		heroi.removeNrDardos();
+
+		if (temp != null) {
+			System.out.println(temp.getPos().getX() + "  " + temp.getPos().getY());
+			temp.setActive(false);
+		}
 	}
 
 	public void moverDragao(Dragao dragao) {

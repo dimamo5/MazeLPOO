@@ -22,6 +22,8 @@ import javax.swing.event.ChangeListener;
 public class SettingButton extends JButton implements ActionListener, KeyListener {
 	private Settings settings;
 	private KeyEvent keyPressed;
+	private JDialog setupWindow;
+	JButton upKey;
 
 	public SettingButton(String n, Settings settings) {
 		this.setText(n);
@@ -34,7 +36,7 @@ public class SettingButton extends JButton implements ActionListener, KeyListene
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		JDialog setupWindow = new JDialog();
+		setupWindow = new JDialog();
 		JSlider mazeSize = new JSlider(JSlider.HORIZONTAL, 11, 21, settings.getMazeSize());
 		JSlider nrDragons = new JSlider(JSlider.HORIZONTAL, 1, 5, settings.getNumDragons());
 
@@ -138,18 +140,18 @@ public class SettingButton extends JButton implements ActionListener, KeyListene
 
 		setupWindow.setVisible(true);
 
+		setupWindow.addKeyListener(this);
+		setupWindow.requestFocus();
+
 	}
 
 	public JPanel createKeyBidings() {
 		JPanel buttonBox = new JPanel();
-		// POR DEFEITO
-		// fazer com que a string da label seja obtida atraves de uma
-		// funcao que converta codigo da tecla em string
-		// ex:JButton upKey = new JButton("UP="+ KeyChar(settings.getUp()) );
-		JButton upKey = new JButton("UP="+ KeyEvent.getKeyText(settings.getUp()));
-		JButton downKey = new JButton("DOWN="+ KeyEvent.getKeyText(settings.getDown()));
-		JButton leftKey = new JButton("LEFT="+KeyEvent.getKeyText(settings.getLeft()));
-		JButton rigthKey = new JButton("RIGTH="+ KeyEvent.getKeyText(settings.getRight()));
+
+		upKey = new JButton("UP=" + KeyEvent.getKeyText(settings.getUp()));
+		JButton downKey = new JButton("DOWN=" + KeyEvent.getKeyText(settings.getDown()));
+		JButton leftKey = new JButton("LEFT=" + KeyEvent.getKeyText(settings.getLeft()));
+		JButton rigthKey = new JButton("RIGTH=" + KeyEvent.getKeyText(settings.getRight()));
 		JButton shoot = new JButton("SHOOT");
 
 		upKey.addKeyListener(this);
@@ -158,18 +160,29 @@ public class SettingButton extends JButton implements ActionListener, KeyListene
 		rigthKey.addKeyListener(this);
 		shoot.addKeyListener(this);
 
-		// bug: so depois de voltar a clicar no botao e que a
-		//tecla escolhida aparece		
 		upKey.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(settings.getUp());
-				if (keyPressed != null) {
-					settings.setUp(keyPressed.getKeyCode());
-					upKey.setText("UP=" + keyPressed.getKeyChar());
-				}
-		
-				System.out.println(settings.getUp());				
+				Thread t = new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						upKey.getKeyListeners().
+						if (keyPressed != null) {
+							settings.setUp(keyPressed.getKeyCode());
+							upKey.setText("UP=" + keyPressed.getKeyChar());
+						}
+
+					}
+				});
+				// if (keyPressed != null) {
+				// while(upKey.)
+				// upKey.setSelected(false);
+				// settings.setUp(keyPressed.getKeyCode());
+				// upKey.setText("UP=" + keyPressed.getKeyChar());
+				//
+				// }
+				t.start();
 			}
 		});
 
@@ -189,11 +202,13 @@ public class SettingButton extends JButton implements ActionListener, KeyListene
 	@Override
 	public void keyPressed(KeyEvent e) {
 		keyPressed = e;
-		System.out.println("teste");
 	}
 
 	@Override
-	public void keyReleased(KeyEvent e) {}
+	public void keyReleased(KeyEvent e) {
+	}
+
 	@Override
-	public void keyTyped(KeyEvent e) {}
+	public void keyTyped(KeyEvent e) {
+	}
 }
