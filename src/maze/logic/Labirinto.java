@@ -445,6 +445,12 @@ public class Labirinto implements Serializable {
 		}
 	}
 
+	/**
+	 * Analisa interacoes entre o dragao e o heroi
+	 * 
+	 * @param dragao
+	 *            dragao a analisar
+	 */
 	public void checkDragao(Dragao dragao) {
 		if (!dragao.getActive()) {
 			return;
@@ -455,8 +461,6 @@ public class Labirinto implements Serializable {
 			if (heroi.isArmed()) { // mata dragao
 				dragao.setActive(false);
 				dragao.setSigla(' ');
-				// tabuleiro.setChar(dragao.getPos().getX(),
-				// dragao.getPos().getY(), ' ');
 				return;
 
 			} else if (!dragao.isDormir()) { // perde jogo
@@ -466,6 +470,13 @@ public class Labirinto implements Serializable {
 			heroi.setActive(false);
 		}
 	}
+
+	/**
+	 * Dispara um dardo numa direcao
+	 * 
+	 * @param comando
+	 *            direcao w-cima/s-baixo/a-esquerda/d-direita
+	 */
 
 	public void shotDardo(char comando) {
 
@@ -524,6 +535,12 @@ public class Labirinto implements Serializable {
 		}
 	}
 
+	/**
+	 * Mover dragao em direcao aleatoria
+	 * 
+	 * @param dragao
+	 *            Dragao a ser movido
+	 */
 	public void moverDragao(Dragao dragao) {
 
 		Random r = new Random();
@@ -541,17 +558,7 @@ public class Labirinto implements Serializable {
 				&& tabuleiro.getTab()[dragao.getPos().getY()][dragao.getPos().getX() + 1] != 'Z'
 				&& dragao.getPos().getX() + 1 < tabuleiro.getTamanho() - 1) { // dragao
 
-			// if (coincide) {
-			// coincide = false;
-			// tabuleiro.setChar(dragao.getPos().getX(), dragao.getPos().getY(),
-			// 'E');
-			// } else
-			// tabuleiro.getTab()[dragao.getPos().getY()][dragao.getPos().getX()]
-			// = ' ';
-
 			dragao.getPos().setX(dragao.getPos().getX() + 1);
-			// tabuleiro.setChar(dragao.getPos().getX(), dragao.getPos().getY(),
-			// dragao.getSigla());
 
 		} else if (dir == 1 && tabuleiro.getTab()[dragao.getPos().getY() + 1][dragao.getPos().getX()] != 'X'
 				&& tabuleiro.getTab()[dragao.getPos().getY() + 1][dragao.getPos().getX()] != 'D'
@@ -559,53 +566,30 @@ public class Labirinto implements Serializable {
 				&& tabuleiro.getTab()[dragao.getPos().getY() + 1][dragao.getPos().getX()] != 'Z'
 				&& dragao.getPos().getY() + 1 < tabuleiro.getTamanho() - 1) {
 
-			// if (coincide) {
-			// coincide = false;
-			// tabuleiro.setChar(dragao.getPos().getX(), dragao.getPos().getY(),
-			// 'E');
-			// } else
-			// tabuleiro.setChar(dragao.getPos().getX(), dragao.getPos().getY(),
-			// ' ');
-
 			dragao.getPos().setY(dragao.getPos().getY() + 1);
-			// tabuleiro.setChar(dragao.getPos().getX(), dragao.getPos().getY(),
-			// dragao.getSigla());
 
 		} else if (dir == 2 && tabuleiro.getTab()[dragao.getPos().getY()][dragao.getPos().getX() - 1] != 'X'
 				&& tabuleiro.getTab()[dragao.getPos().getY()][dragao.getPos().getX() - 1] != 'D'
 				&& tabuleiro.getTab()[dragao.getPos().getY()][dragao.getPos().getX() - 1] != 'S'
 				&& tabuleiro.getTab()[dragao.getPos().getY()][dragao.getPos().getX() - 1] != 'Z' && dragao.getPos().getX() - 1 > 0) {
 
-			// if (coincide) {
-			// coincide = false;
-			// tabuleiro.setChar(dragao.getPos().getX(), dragao.getPos().getY(),
-			// dragao.getSigla());
-			// } else
-			// tabuleiro.setChar(dragao.getPos().getX(), dragao.getPos().getY(),
-			// ' ');
 			dragao.getPos().setX(dragao.getPos().getX() - 1);
-			// tabuleiro.setChar(dragao.getPos().getX(), dragao.getPos().getY(),
-			// dragao.getSigla());
 
 		} else if (dir == 3 && tabuleiro.getTab()[dragao.getPos().getY() - 1][dragao.getPos().getX()] != 'X'
 				&& tabuleiro.getTab()[dragao.getPos().getY() - 1][dragao.getPos().getX()] != 'D'
 				&& tabuleiro.getTab()[dragao.getPos().getY() - 1][dragao.getPos().getX()] != 'S'
 				&& tabuleiro.getTab()[dragao.getPos().getY() - 1][dragao.getPos().getX()] != 'Z' && dragao.getPos().getY() - 1 > 0) {
 
-			// if (coincide) {
-			// coincide = false;
-			// tabuleiro.setChar(dragao.getPos().getX(), dragao.getPos().getY(),
-			// 'E');
-			// } else
-			// tabuleiro.setChar(dragao.getPos().getX(), dragao.getPos().getY(),
-			// ' ');
-
 			dragao.getPos().setY(dragao.getPos().getY() - 1);
-			// tabuleiro.setChar(dragao.getPos().getX(), dragao.getPos().getY(),
-			// dragao.getSigla());
+
 		}
 	}
 
+	/**
+	 * Verifica se o jogo acabou
+	 * 
+	 * @return false -Não Acabou true-Acabou
+	 */
 	public boolean gameOver() {
 		for (Dragao d : dragoes) {
 			if (d.getActive()) {

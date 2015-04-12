@@ -24,6 +24,7 @@ public class SettingButton extends JButton implements ActionListener, KeyListene
 	private KeyEvent keyPressed;
 	private JDialog setupWindow;
 	JButton upKey;
+	JButton lastPressed;
 
 	public SettingButton(String n, Settings settings) {
 		this.setText(n);
@@ -163,26 +164,12 @@ public class SettingButton extends JButton implements ActionListener, KeyListene
 		upKey.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Thread t = new Thread(new Runnable() {
+				lastPressed = upKey;
 
-					@Override
-					public void run() {
-						upKey.getKeyListeners().
-						if (keyPressed != null) {
-							settings.setUp(keyPressed.getKeyCode());
-							upKey.setText("UP=" + keyPressed.getKeyChar());
-						}
-
-					}
-				});
 				// if (keyPressed != null) {
-				// while(upKey.)
-				// upKey.setSelected(false);
 				// settings.setUp(keyPressed.getKeyCode());
 				// upKey.setText("UP=" + keyPressed.getKeyChar());
-				//
 				// }
-				t.start();
 			}
 		});
 
@@ -201,6 +188,12 @@ public class SettingButton extends JButton implements ActionListener, KeyListene
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+		if (lastPressed == null) {
+			return;
+		} else {
+			settings.setUp(e.getKeyCode());
+			upKey.setText("UP=" + e.getKeyChar());
+		}
 		keyPressed = e;
 	}
 
