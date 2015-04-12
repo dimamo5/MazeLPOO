@@ -115,6 +115,7 @@ public class MazeGui {
 					System.out.println("Guardou o jogo");
 					io.setLab(lab);
 					io.saveMaze();
+					jogoPanel.requestFocus();
 				}
 			}
 		});
@@ -171,11 +172,9 @@ public class MazeGui {
 		panelMenu.setBounds(0, 0, frame.getWidth(), 50);
 
 		frame.pack();
-		
+		// lab.
 		jogoPanel.requestFocus();
 		jogoPanel.repaint();
-
-		
 
 	}
 
@@ -201,7 +200,7 @@ public class MazeGui {
 
 		panelMenu.setBounds(0, 0, frame.getWidth(), 50);
 
-		 frame.pack();
+		frame.pack();
 
 		jogoPanel.requestFocus();
 		jogoPanel.repaint();

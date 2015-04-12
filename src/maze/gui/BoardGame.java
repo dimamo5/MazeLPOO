@@ -25,7 +25,7 @@ public class BoardGame extends JPanel implements KeyListener {
 	private Labirinto lab;
 
 	// imagens
-	BufferedImage hero, sword, wall, dragon, dart, shield, hero_armed, floor, dragon_sleep, exit;
+	BufferedImage hero, sword, wall, dragon, dart, shield, hero_armed, hero_shield, hero_armed_shield, floor, dragon_sleep, exit;
 
 	JLabel nrDardos;
 
@@ -60,7 +60,11 @@ public class BoardGame extends JPanel implements KeyListener {
 				if (lab.getTabuleiro().getTab()[i][j] == 'X') {
 					img = wall;
 				} else if (lab.getTabuleiro().getTab()[i][j] == 'H') {
-					img = hero;
+					if (lab.getHeroi().isShield()) {
+						img = hero_shield;
+					} else {
+						img = hero;
+					}
 				} else if (lab.getTabuleiro().getTab()[i][j] == 'E') {
 					img = sword;
 				} else if (lab.getTabuleiro().getTab()[i][j] == 'D') {
@@ -75,18 +79,20 @@ public class BoardGame extends JPanel implements KeyListener {
 					img = shield;
 				} else if (lab.getTabuleiro().getTab()[i][j] == 'S') {
 					img = exit;
-				}
-				// caso especial : coincidem drago / espada else
-				else if (lab.getTabuleiro().getTab()[i][j] == 'F') {
+				} else if (lab.getTabuleiro().getTab()[i][j] == 'F') {
 					img = dragon;
 				} else if (lab.getTabuleiro().getTab()[i][j] == 'A') {
-					img = hero;
+					if (lab.getHeroi().isShield()) {
+						img = hero_armed_shield;
+					} else {
+						img = hero_armed;
+					}
 				}
 
 				int xi, yi;
 				xi = j * TILESIZE;
 				yi = i * TILESIZE;
-				
+
 				g.drawImage(floor, xi, yi, TILESIZE, TILESIZE, null);
 				g.drawImage(img, xi, yi, TILESIZE, TILESIZE, null);
 			}
@@ -96,6 +102,9 @@ public class BoardGame extends JPanel implements KeyListener {
 	public void loadImages() {
 		try {
 			hero = ImageIO.read(new File(System.getProperty("user.dir") + "\\resources\\hero.png"));
+			hero_armed = ImageIO.read(new File(System.getProperty("user.dir") + "\\resources\\heroA.png"));
+			hero_shield = ImageIO.read(new File(System.getProperty("user.dir") + "\\resources\\heroS.png"));
+			hero_armed_shield = ImageIO.read(new File(System.getProperty("user.dir") + "\\resources\\heroAS.png"));
 			sword = ImageIO.read(new File(System.getProperty("user.dir") + "\\resources\\sword.png"));
 			wall = ImageIO.read(new File(System.getProperty("user.dir") + "\\resources\\wall.png"));
 			floor = ImageIO.read(new File(System.getProperty("user.dir") + "\\resources\\floor.png"));
@@ -103,8 +112,6 @@ public class BoardGame extends JPanel implements KeyListener {
 			dart = ImageIO.read(new File(System.getProperty("user.dir") + "\\resources\\dard.png"));
 			shield = ImageIO.read(new File(System.getProperty("user.dir") + "\\resources\\shield.png"));
 			exit = ImageIO.read(new File(System.getProperty("user.dir") + "\\resources\\exit.png"));
-			// hero_armed =
-			// ImageIO.read(this.getClass().getResource("heroarmed.jpg"));
 			dragon_sleep = ImageIO.read(new File(System.getProperty("user.dir") + "\\resources\\dragonSleep.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -137,16 +144,27 @@ public class BoardGame extends JPanel implements KeyListener {
 		nrDardos.setText("Dardos = " + lab.getHeroi().getNrDardos());
 
 		lab.refreshTabuleiro();
-		
+
 		repaint();
+		
+//		for (int i = 0; i < lab.getTabuleiro().getTamanho(); i++) {
+//
+//			for (int j = 0; j < lab.getTabuleiro().getTamanho(); j++) {
+//				System.out.print(lab.getTabuleiro().getTab()[i][j] + " ");
+//			}
+//
+//			System.out.print("\n");
+//		}
 
 		if (lab.getHeroi().getActive() == false) {
+			// lab=null;
 			if (lab.gameOver()) {
 				JOptionPane.showMessageDialog(null, "Winner", "Winner", JOptionPane.YES_NO_OPTION);
 			} else {
 				JOptionPane.showMessageDialog(null, "Loser", "Loser", JOptionPane.YES_NO_OPTION);
 			}
 			this.setEnabled(false);
+
 		}
 
 	}
