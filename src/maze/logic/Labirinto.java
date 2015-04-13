@@ -1,11 +1,16 @@
 package maze.logic;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Random;
 
 import maze.cli.Cli;
 
+/**
+ * Classe responsevel pela logica principal do jogo
+ * Gere a movimentacao dos dragoes/heroi, colisoes com objectos e diparo de dardos
+ * @author Diogo Moura
+ *
+ */
 @SuppressWarnings("serial")
 public class Labirinto implements Serializable {
 
@@ -530,7 +535,6 @@ public class Labirinto implements Serializable {
 		}
 
 		if (temp != null) {
-			System.out.println(temp.getPos().getX() + "  " + temp.getPos().getY());
 			temp.setActive(false);
 		}
 	}

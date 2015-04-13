@@ -1,12 +1,19 @@
 package maze.logic;
-
+/**
+ * Classe responsavel pela criação de do Labirinto Predefinido
+ * @author Diogo Moura
+ *
+ */
 public class ManualBuilder implements IMazeBuilder {
 
 	private final int TAMANHO = 10;
 
+	/**
+	 * Construtor Vazio
+	 */
 	public ManualBuilder() {
 	}
-	
+
 	@Override
 	public Tabuleiro build() {
 		Tabuleiro tab = new Tabuleiro(TAMANHO);
