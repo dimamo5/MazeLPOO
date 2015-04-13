@@ -13,17 +13,13 @@ import javax.swing.JPanel;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.Label;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
 
-import javax.swing.AbstractAction;
-
 import maze.logic.*;
 
-@SuppressWarnings("serial")
 public class MazeGui {
 
 	private JFrame frame;
@@ -137,10 +133,9 @@ public class MazeGui {
 			public void actionPerformed(ActionEvent e) {
 				if (lab == null || jogoPanel instanceof BoardGameCustom) {
 					JOptionPane.showMessageDialog(null, "Nenhum labirinto para guardar", "Erro", JOptionPane.ERROR_MESSAGE);
-				} else if(lab.gameOver()){
+				} else if (lab.gameOver()) {
 					JOptionPane.showMessageDialog(null, "Não pode gravar um jogo terminado", "Erro", JOptionPane.ERROR_MESSAGE);
-				}
-					else {
+				} else {
 					System.out.println("Guardou o jogo");
 					io.setLab(lab);
 					io.saveMaze();
@@ -236,13 +231,4 @@ public class MazeGui {
 
 	}
 
-	private class SwingAction extends AbstractAction {
-		public SwingAction() {
-			putValue(NAME, "SwingAction");
-			putValue(SHORT_DESCRIPTION, "Some short description");
-		}
-
-		public void actionPerformed(ActionEvent e) {
-		}
-	}
 }

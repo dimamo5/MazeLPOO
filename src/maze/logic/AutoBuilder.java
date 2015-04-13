@@ -3,6 +3,11 @@ package maze.logic;
 import java.util.Random;
 import java.util.Stack;
 
+/**
+ * Classe que constroi um tabuleiro aleatorio implementa interface IMazeBuilder e metodos associados
+ * @author Diogo Moura
+ *
+ */
 public class AutoBuilder implements IMazeBuilder {
 
 	int tamanho = 11; // tamanho labirinto predefinido

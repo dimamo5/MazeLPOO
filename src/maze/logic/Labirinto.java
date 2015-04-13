@@ -6,8 +6,8 @@ import java.util.Random;
 import maze.cli.Cli;
 
 /**
- * Classe responsevel pela logica principal do jogo
- * Gere a movimentacao dos dragoes/heroi, colisoes com objectos e diparo de dardos
+ * Classe responsável pela lógica principal do jogo
+ * Gere a movimentação dos dragões/herói, colisões com objectos entre outros eventos
  * @author Diogo Moura
  *
  */
@@ -585,7 +585,6 @@ public class Labirinto implements Serializable {
 				&& tabuleiro.getTab()[dragao.getPos().getY() - 1][dragao.getPos().getX()] != 'Z' && dragao.getPos().getY() - 1 > 0) {
 
 			dragao.getPos().setY(dragao.getPos().getY() - 1);
-
 		}
 	}
 

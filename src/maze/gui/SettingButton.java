@@ -108,11 +108,8 @@ public class SettingButton extends JButton implements ActionListener, KeyListene
 		});
 
 		setupWindow.add(new JLabel("Key Bindings"));
-
 		setupWindow.add(createKeyBidings());
-
 		setupWindow.setVisible(true);
-
 		setupWindow.addKeyListener(this);
 		setupWindow.requestFocus();
 
