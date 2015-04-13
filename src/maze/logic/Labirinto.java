@@ -484,7 +484,7 @@ public class Labirinto implements Serializable {
 	 */
 
 	public void shotDardo(char comando) {
-
+		
 		if (comando == 'c' || heroi.getNrDardos() <= 0) {
 			return;
 		}
@@ -599,6 +599,9 @@ public class Labirinto implements Serializable {
 			if (d.getActive()) {
 				return false;
 			}
+		}
+		if(!heroi.isArmed()){
+			return false;
 		}
 		return true;
 	}

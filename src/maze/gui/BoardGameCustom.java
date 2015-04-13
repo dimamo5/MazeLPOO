@@ -32,12 +32,12 @@ public class BoardGameCustom extends JPanel implements MouseListener, MouseMotio
 	private JPanel options;
 	private Labirinto lab;
 	private Settings set;
-
+	
 	private char selected = 'X';
 
 	public static final int TILESIZE = 40;
 
-	BufferedImage hero, sword, wall, dragon, dart, shield, hero_armed, floor, dragon_sleep, exit;
+	BufferedImage hero, sword, wall, dragon, bomb, shield, floor, dragon_sleep, exit;
 	private ArrayList<Dragao> dragoes = new ArrayList<Dragao>();
 	private ArrayList<Peca> dardos = new ArrayList<Peca>();
 
@@ -109,7 +109,7 @@ public class BoardGameCustom extends JPanel implements MouseListener, MouseMotio
 				selected = '«';
 			}
 		});
-		dartBtn.setIcon(new ImageIcon(dart));
+		dartBtn.setIcon(new ImageIcon(bomb));
 		options.add(dartBtn);
 
 		JButton wallBtn = new JButton();
@@ -157,7 +157,7 @@ public class BoardGameCustom extends JPanel implements MouseListener, MouseMotio
 				} else if (lab.getTabuleiro().getTab()[i][j] == ' ') {
 					img = floor;
 				} else if (lab.getTabuleiro().getTab()[i][j] == '«') {
-					img = dart;
+					img = bomb;
 				} else if (lab.getTabuleiro().getTab()[i][j] == 'P') {
 					img = shield;
 				} else if (lab.getTabuleiro().getTab()[i][j] == 'S') {
@@ -187,11 +187,9 @@ public class BoardGameCustom extends JPanel implements MouseListener, MouseMotio
 			wall = ImageIO.read(new File(System.getProperty("user.dir") + "\\resources\\wall.png"));
 			floor = ImageIO.read(new File(System.getProperty("user.dir") + "\\resources\\floor.png"));
 			dragon = ImageIO.read(new File(System.getProperty("user.dir") + "\\resources\\dragon.png"));
-			dart = ImageIO.read(new File(System.getProperty("user.dir") + "\\resources\\dard.png"));
+			bomb = ImageIO.read(new File(System.getProperty("user.dir") + "\\resources\\bomb.png"));
 			shield = ImageIO.read(new File(System.getProperty("user.dir") + "\\resources\\shield.png"));
 			exit = ImageIO.read(new File(System.getProperty("user.dir") + "\\resources\\exit.png"));
-			// hero_armed =
-			// ImageIO.read(this.getClass().getResource("heroarmed.jpg"));
 			dragon_sleep = ImageIO.read(new File(System.getProperty("user.dir") + "\\resources\\dragonSleep.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

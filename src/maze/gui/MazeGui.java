@@ -2,16 +2,22 @@ package maze.gui;
 
 import java.awt.EventQueue;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.Label;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.io.File;
+import java.io.IOException;
 
 import javax.swing.AbstractAction;
 
@@ -67,6 +73,26 @@ public class MazeGui {
 		panelMenu.setLayout(new GridLayout(1, 6));
 		frame.getContentPane().add(panelMenu);
 
+		jogoPanel = new JPanel();
+		jogoPanel.setLayout(new FlowLayout());
+
+		ImageIcon image = null;
+		try {
+			image = new ImageIcon(ImageIO.read(new File(System.getProperty("user.dir") + "\\resources\\welcome.png")));
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+
+		JLabel imageLabel = new JLabel(image);
+
+		jogoPanel.add(imageLabel);
+
+		imageLabel.setBounds(0, 50, frame.getWidth(), frame.getHeight() - 50);
+
+		jogoPanel.setBounds(0, 50, frame.getWidth(), frame.getHeight() - 50);
+
+		frame.add(jogoPanel);
+
 		JButton btnNewButton = new JButton("Play Game");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -111,7 +137,10 @@ public class MazeGui {
 			public void actionPerformed(ActionEvent e) {
 				if (lab == null || jogoPanel instanceof BoardGameCustom) {
 					JOptionPane.showMessageDialog(null, "Nenhum labirinto para guardar", "Erro", JOptionPane.ERROR_MESSAGE);
-				} else {
+				} else if(lab.gameOver()){
+					JOptionPane.showMessageDialog(null, "Não pode gravar um jogo terminado", "Erro", JOptionPane.ERROR_MESSAGE);
+				}
+					else {
 					System.out.println("Guardou o jogo");
 					io.setLab(lab);
 					io.saveMaze();
@@ -122,7 +151,7 @@ public class MazeGui {
 
 		panelMenu.add(save);
 
-		JButton load = new JButton("Load Teste");
+		JButton load = new JButton("Load");
 
 		load.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -138,7 +167,7 @@ public class MazeGui {
 
 		panelMenu.add(load);
 
-		JButton customMaze = new JButton("Custom Maze");
+		JButton customMaze = new JButton("Map Editor");
 
 		customMaze.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

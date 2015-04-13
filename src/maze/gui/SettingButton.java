@@ -36,8 +36,8 @@ public class SettingButton extends JButton implements ActionListener, KeyListene
 
 	public void actionPerformed(ActionEvent e) {
 		setupWindow = new JDialog();
-		JSlider mazeSize = new JSlider(JSlider.HORIZONTAL, 11, 21, settings.getMazeSize());
-		JSlider nrDragons = new JSlider(JSlider.HORIZONTAL, 1, 5, settings.getNumDragons());
+		JSlider mazeSize = new JSlider(JSlider.HORIZONTAL, 11, 25, settings.getMazeSize());
+		JSlider nrDragons = new JSlider(JSlider.HORIZONTAL, 1, 10, settings.getNumDragons());
 
 		mazeSize.setMinorTickSpacing(2);
 		mazeSize.setPaintTicks(true);
@@ -57,10 +57,9 @@ public class SettingButton extends JButton implements ActionListener, KeyListene
 		nrDragons.setPaintTicks(true);
 		nrDragons.setPaintLabels(true);
 		nrDragons.setLabelTable(nrDragons.createStandardLabels(1));
-		// ==================
 
-		setupWindow.getContentPane().setLayout(new GridLayout(5, 2));
-		setupWindow.setBounds(50, 50, 600, 650);
+		setupWindow.getContentPane().setLayout(new GridLayout(4, 2));
+		setupWindow.setBounds(50, 50, 500, 500);
 		setupWindow.setModal(true);
 
 		setupWindow.getContentPane().add(new JLabel("Nr Dragons:"));
@@ -68,28 +67,6 @@ public class SettingButton extends JButton implements ActionListener, KeyListene
 
 		setupWindow.getContentPane().add(new JLabel("Board Size:"));
 		setupWindow.getContentPane().add(mazeSize);
-
-		setupWindow.getContentPane().add(new JLabel("Maze type:"));
-		ButtonGroup group_mtype = new ButtonGroup();
-		JRadioButton predefinido = new JRadioButton("Aleatorio");
-		JRadioButton custom = new JRadioButton("Aleatorio");
-
-		if (settings.getMazeType() == 1) {
-			predefinido.setSelected(false);
-			custom.setSelected(true);
-		} else {
-			predefinido.setSelected(true);
-			custom.setSelected(false);
-		}
-
-		JPanel teste2 = new JPanel();
-
-		group_mtype.add(custom);
-		teste2.add(custom);
-		group_mtype.add(predefinido);
-		teste2.add(predefinido);
-
-		setupWindow.getContentPane().add(teste2);
 
 		setupWindow.getContentPane().add(new JLabel("Type Dragon:"));
 		ButtonGroup group = new ButtonGroup();
@@ -126,10 +103,7 @@ public class SettingButton extends JButton implements ActionListener, KeyListene
 				} else if (aleatorioDormir.isSelected()) {
 					settings.setTypeDragons('z');
 				}
-				if (custom.isSelected()) {
-					settings.setMazeType(1);
-				} else if (predefinido.isSelected())
-					settings.setMazeType(0);
+
 			}
 		});
 

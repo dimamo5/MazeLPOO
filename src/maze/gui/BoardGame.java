@@ -4,12 +4,17 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+import javax.swing.Timer;
 import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -24,9 +29,12 @@ public class BoardGame extends JPanel implements KeyListener {
 	public static final int TILESIZE = 40;
 	private Settings set;
 	private Labirinto lab;
+	private Timer counterTimer;
+	private boolean paintAnimationFire = true;
+	private char paintAnimationDard = ' ';
 
 	// imagens
-	BufferedImage hero, sword, wall, dragon, dart, shield, hero_armed, hero_shield, hero_armed_shield, floor, dragon_sleep, exit,fire;
+	BufferedImage hero, sword, wall, dragon, shield, hero_armed, hero_shield, hero_armed_shield, floor, dragon_sleep, exit, fire, bomb;
 
 	JLabel nrDardos;
 
@@ -44,6 +52,7 @@ public class BoardGame extends JPanel implements KeyListener {
 		this.add(nrDardos);
 		nrDardos.setForeground(Color.WHITE);
 		nrDardos.setVisible(true);
+		counterTimer = new Timer(1000, counterTimerListener);
 	}
 
 	@Override
@@ -51,12 +60,10 @@ public class BoardGame extends JPanel implements KeyListener {
 
 		super.paintComponent(g); // limpa fundo ...
 
-		// nrDardos.repaint();
+		counterTimer.start();
 
 		BufferedImage img = wall; // default init
 
-		drawAnimation(g);
-		
 		for (int i = 0; i < lab.getTabuleiro().getTamanho(); i++) {
 			for (int j = 0; j < lab.getTabuleiro().getTamanho(); j++) {
 
@@ -77,7 +84,7 @@ public class BoardGame extends JPanel implements KeyListener {
 				} else if (lab.getTabuleiro().getTab()[i][j] == ' ') {
 					img = floor;
 				} else if (lab.getTabuleiro().getTab()[i][j] == '«') {
-					img = dart;
+					img = bomb;
 				} else if (lab.getTabuleiro().getTab()[i][j] == 'P') {
 					img = shield;
 				} else if (lab.getTabuleiro().getTab()[i][j] == 'S') {
@@ -100,20 +107,86 @@ public class BoardGame extends JPanel implements KeyListener {
 				g.drawImage(img, xi, yi, TILESIZE, TILESIZE, null);
 			}
 		}
+
+		if (paintAnimationFire)
+			drawAnimation(g);
+
+		if (paintAnimationDard != ' ') {
+			drawAnimationDard(paintAnimationDard, g);
+		}
+	}
+
+	private void drawAnimationDard(char dir, Graphics g) {
+		int incrementX = 0;
+		int incrementY = 0;
+
+		if (dir == 'w') {
+			incrementY = -1;
+		} else if (dir == 's') {
+			incrementY = 1;
+		} else if (dir == 'a') {
+			incrementX = -1;
+		} else if (dir == 'd') {
+			incrementX = 1;
+		}
+
+		for (int i = 1; i < lab.getTabuleiro().getTamanho(); i++) {
+			if (lab.getTabuleiro().getTab()[lab.getHeroi().getPos().getY() + (incrementY * i)][lab.getHeroi().getPos().getX() + (incrementX * i)] == 'X'
+					|| lab.getTabuleiro().getTab()[lab.getHeroi().getPos().getY() + (incrementY * i)][lab.getHeroi().getPos().getX()
+							+ (incrementX * i)] == 'D'
+					|| lab.getTabuleiro().getTab()[lab.getHeroi().getPos().getY() + (incrementY * i)][lab.getHeroi().getPos().getX()
+							+ (incrementX * i)] == 'Z'
+					|| lab.getTabuleiro().getTab()[lab.getHeroi().getPos().getY() + (incrementY * i)][lab.getHeroi().getPos().getX()
+							+ (incrementX * i)] == 'S') {
+				break;
+			} else {
+				g.drawImage(bomb, (lab.getHeroi().getPos().getX() + (incrementX * i)) * TILESIZE, (lab.getHeroi().getPos().getY() + (incrementY * i))
+						* TILESIZE, null);
+
+			}
+		}
+		paintAnimationDard = ' ';
+
 	}
 
 	public void drawAnimation(Graphics g) {
-		Thread t = new Thread() {
-			public void run() {
-				System.out.println("Animação");
-				Dragao dragoes[] = lab.getDragoes();
-				if (lab.getTabuleiro().getTab()[dragoes[0].getPos().getY()][dragoes[0].getPos().getX() + 1] == ' ') {
-					g.drawImage(fire, (dragoes[0].getPos().getX() + 1) * TILESIZE, (dragoes[0].getPos().getX()) * TILESIZE, null);
-					repaint();
-				}
-			}
-		};
-		t.start();
+		if (lab.getDragoes().length == 0) {
+			return;
+		}
+		for (Dragao d : lab.getDragoes()) {
+			if (d.getActive() && !d.isDormir())
+				drawAnimationHor(d, g);
+		}
+	}
+
+	public void drawAnimationHor(Dragao d, Graphics g) {
+		int posX = d.getPos().getX();
+		int posY = d.getPos().getY();
+
+		for (int i = 1; i <= 3; i++) {
+			if (posX + i >= 0 && posX + i < lab.getTabuleiro().getTamanho() && lab.getTabuleiro().getTab()[posY][posX + i] == ' ') {
+				g.drawImage(fire, (posX + i) * TILESIZE, posY * TILESIZE, TILESIZE, TILESIZE, null);
+			} else
+				break;
+		}
+		for (int i = 1; i <= 3; i++) {
+			if (posX - i >= 0 && posX - i < lab.getTabuleiro().getTamanho() && lab.getTabuleiro().getTab()[posY][posX - i] == ' ') {
+				g.drawImage(fire, (posX - i) * TILESIZE, posY * TILESIZE, TILESIZE, TILESIZE, null);
+			} else
+				break;
+		}
+		for (int i = 1; i <= 3; i++) {
+			if (posY + i >= 0 && posY + i < lab.getTabuleiro().getTamanho() && lab.getTabuleiro().getTab()[posY + i][posX] == ' ') {
+				g.drawImage(fire, posX * TILESIZE, (posY + i) * TILESIZE, TILESIZE, TILESIZE, null);
+			} else
+				break;
+		}
+		for (int i = 1; i <= 3; i++) {
+			if (posY - i >= 0 && posY - i < lab.getTabuleiro().getTamanho() && lab.getTabuleiro().getTab()[posY - i][posX] == ' ') {
+				g.drawImage(fire, posX * TILESIZE, (posY - i) * TILESIZE, TILESIZE, TILESIZE, null);
+			} else
+				break;
+		}
 	}
 
 	public void loadImages() {
@@ -126,11 +199,11 @@ public class BoardGame extends JPanel implements KeyListener {
 			wall = ImageIO.read(new File(System.getProperty("user.dir") + "\\resources\\wall.png"));
 			floor = ImageIO.read(new File(System.getProperty("user.dir") + "\\resources\\floor.png"));
 			dragon = ImageIO.read(new File(System.getProperty("user.dir") + "\\resources\\dragon.png"));
-			dart = ImageIO.read(new File(System.getProperty("user.dir") + "\\resources\\dard.png"));
 			shield = ImageIO.read(new File(System.getProperty("user.dir") + "\\resources\\shield.png"));
 			exit = ImageIO.read(new File(System.getProperty("user.dir") + "\\resources\\exit.png"));
 			dragon_sleep = ImageIO.read(new File(System.getProperty("user.dir") + "\\resources\\dragonSleep.png"));
-			fire=ImageIO.read(new File(System.getProperty("user.dir") + "\\resources\\fire.png"));
+			fire = ImageIO.read(new File(System.getProperty("user.dir") + "\\resources\\fire.png"));
+			bomb = ImageIO.read(new File(System.getProperty("user.dir") + "\\resources\\bomb.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -148,13 +221,30 @@ public class BoardGame extends JPanel implements KeyListener {
 		} else if (e.getKeyCode() == set.getRight()) {
 			lab.moveRight();
 		} else if (e.getKeyCode() == set.getShootUp()) {
+			if (lab.getHeroi().getNrDardos() > 0) {
+				paintAnimationDard = 'w';
+				this.repaint();
+			}
 			lab.shotDardo('w');
 		} else if (e.getKeyCode() == set.getShootDown()) {
+			if (lab.getHeroi().getNrDardos() > 0) {
+				paintAnimationDard = 's';
+				this.repaint();
+			}
 			lab.shotDardo('s');
 		} else if (e.getKeyCode() == set.getShootLeft()) {
+			if (lab.getHeroi().getNrDardos() > 0) {
+				paintAnimationDard = 'a';
+				this.repaint();
+			}
 			lab.shotDardo('a');
 		} else if (e.getKeyCode() == set.getShootRigth()) {
+			if (lab.getHeroi().getNrDardos() > 0) {
+				paintAnimationDard = 'd';
+				this.repaint();
+			}
 			lab.shotDardo('d');
+
 		}
 
 		lab.updateDragons();
@@ -166,7 +256,6 @@ public class BoardGame extends JPanel implements KeyListener {
 		repaint();
 
 		if (lab.getHeroi().getActive() == false) {
-			// lab=null;
 			if (lab.gameOver()) {
 				JOptionPane.showMessageDialog(null, "Winner", "Winner", JOptionPane.YES_NO_OPTION);
 			} else {
@@ -189,5 +278,12 @@ public class BoardGame extends JPanel implements KeyListener {
 		// TODO Auto-generated method stub
 
 	}
+
+	ActionListener counterTimerListener = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			paintAnimationFire = !paintAnimationFire;
+			repaint();
+		}
+	};
 
 }
