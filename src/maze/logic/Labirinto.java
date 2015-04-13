@@ -581,10 +581,6 @@ public class Labirinto implements Serializable {
 				&& tabuleiro.getTab()[dragao.getPos().getY() - 1][dragao.getPos().getX()] != 'Z' && dragao.getPos().getY() - 1 > 0) {
 
 			dragao.getPos().setY(dragao.getPos().getY() - 1);
-<<<<<<< HEAD
-=======
-
->>>>>>> 053cdd1d8c7c408e22dbf863587c02f2a8205ab0
 		}
 	}
 
