@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import maze.logic.Dragao;
 import maze.logic.Labirinto;
 
 @SuppressWarnings("serial")
@@ -25,7 +26,7 @@ public class BoardGame extends JPanel implements KeyListener {
 	private Labirinto lab;
 
 	// imagens
-	BufferedImage hero, sword, wall, dragon, dart, shield, hero_armed, hero_shield, hero_armed_shield, floor, dragon_sleep, exit;
+	BufferedImage hero, sword, wall, dragon, dart, shield, hero_armed, hero_shield, hero_armed_shield, floor, dragon_sleep, exit,fire;
 
 	JLabel nrDardos;
 
@@ -54,6 +55,8 @@ public class BoardGame extends JPanel implements KeyListener {
 
 		BufferedImage img = wall; // default init
 
+		drawAnimation(g);
+		
 		for (int i = 0; i < lab.getTabuleiro().getTamanho(); i++) {
 			for (int j = 0; j < lab.getTabuleiro().getTamanho(); j++) {
 
@@ -99,6 +102,20 @@ public class BoardGame extends JPanel implements KeyListener {
 		}
 	}
 
+	public void drawAnimation(Graphics g) {
+		Thread t = new Thread() {
+			public void run() {
+				System.out.println("Animação");
+				Dragao dragoes[] = lab.getDragoes();
+				if (lab.getTabuleiro().getTab()[dragoes[0].getPos().getY()][dragoes[0].getPos().getX() + 1] == ' ') {
+					g.drawImage(fire, (dragoes[0].getPos().getX() + 1) * TILESIZE, (dragoes[0].getPos().getX()) * TILESIZE, null);
+					repaint();
+				}
+			}
+		};
+		t.start();
+	}
+
 	public void loadImages() {
 		try {
 			hero = ImageIO.read(new File(System.getProperty("user.dir") + "\\resources\\hero.png"));
@@ -113,6 +130,7 @@ public class BoardGame extends JPanel implements KeyListener {
 			shield = ImageIO.read(new File(System.getProperty("user.dir") + "\\resources\\shield.png"));
 			exit = ImageIO.read(new File(System.getProperty("user.dir") + "\\resources\\exit.png"));
 			dragon_sleep = ImageIO.read(new File(System.getProperty("user.dir") + "\\resources\\dragonSleep.png"));
+			fire=ImageIO.read(new File(System.getProperty("user.dir") + "\\resources\\fire.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

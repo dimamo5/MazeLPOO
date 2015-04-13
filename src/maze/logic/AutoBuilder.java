@@ -7,6 +7,12 @@ public class AutoBuilder implements IMazeBuilder {
 
 	int tamanho = 11; // tamanho labirinto predefinido
 
+	/**
+	 * Construtor do Tabuleiro do Labirinto Aleatorio com m tabmanho especifico
+	 * 
+	 * @param n
+	 *            tamanho do labirinto a ser criado
+	 */
 	public AutoBuilder(int n) {
 		tamanho = n;
 	}
@@ -19,6 +25,10 @@ public class AutoBuilder implements IMazeBuilder {
 		return tab;
 	}
 
+	/**
+	 * Criador do Tabuleiro
+	 * @param tabuleiro Tabuleiro a ser alterado
+	 */
 	public void mazeGenerator(Tabuleiro tabuleiro) {
 
 		int n = tabuleiro.getTamanho();

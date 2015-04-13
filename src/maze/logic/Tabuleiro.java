@@ -2,6 +2,11 @@ package maze.logic;
 
 import java.io.Serializable;
 
+/**
+ * Classe com informacao sobre o mapa do Labirinto
+ * @author Diogo Moura
+ *
+ */
 @SuppressWarnings("serial")
 public class Tabuleiro implements Serializable {
 

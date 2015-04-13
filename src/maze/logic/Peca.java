@@ -2,6 +2,11 @@ package maze.logic;
 
 import java.io.Serializable;
 
+/**
+ * Classe Mae de onde derivam as outras todas classes com objectos especificos
+ * @author Diogo Moura
+ *
+ */
 @SuppressWarnings("serial")
 public class Peca implements Serializable {
 

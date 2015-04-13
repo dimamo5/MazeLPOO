@@ -2,6 +2,11 @@ package maze.logic;
 
 import java.io.Serializable;
 
+/**
+ * Classe auxiliar para facilitar a gestao das posicoes dos diferentes objectos do Labirinto
+ * @author Utilizador
+ *
+ */
 @SuppressWarnings("serial")
 public class Pos implements Serializable {
 	private int x, y;

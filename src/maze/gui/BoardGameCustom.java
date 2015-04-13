@@ -28,11 +28,11 @@ import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
 public class BoardGameCustom extends JPanel implements MouseListener, MouseMotionListener {
-	
+
 	private JPanel options;
 	private Labirinto lab;
 	private Settings set;
-	
+
 	private char selected = 'X';
 
 	public static final int TILESIZE = 40;
@@ -50,14 +50,13 @@ public class BoardGameCustom extends JPanel implements MouseListener, MouseMotio
 		this.set = settings;
 		this.setVisible(true);
 		initCustomMaze();
-		
-		
+
 		options = new JPanel();
 		options.setLayout(new GridLayout(8, 1));
 		options.setBounds(settings.getMazeSize() * BoardGame.TILESIZE, 0, TILESIZE, 6 * TILESIZE);
 		options.setVisible(true);
 		options.setEnabled(true);
-		
+
 		JButton heroiBtn = new JButton();
 		heroiBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -251,8 +250,6 @@ public class BoardGameCustom extends JPanel implements MouseListener, MouseMotio
 
 		lab.getTabuleiro().setChar(lab.getTabuleiro().getExit().getX(), lab.getTabuleiro().getExit().getY(), 'S');
 
-		// System.out.println(lab.getTabuleiro().getExit().getX() + "  " +
-		// lab.getTabuleiro().getExit().getY());
 		lab.getHeroi().setPos(new Pos(1, 1));
 		lab.getHeroi().setActive(false);
 		lab.getEspada().setPos(new Pos(1, 1));
@@ -283,15 +280,12 @@ public class BoardGameCustom extends JPanel implements MouseListener, MouseMotio
 				}
 			}
 		}
-		// else if (c == 'S'){ }
 	}
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		int coordX = e.getX() / TILESIZE;
 		int coordY = e.getY() / TILESIZE;
-
-		System.out.println(lab.getHeroi().getActive());
 
 		if (coordX >= lab.getTabuleiro().getTamanho() || coordY >= lab.getTabuleiro().getTamanho()) {
 			return;
@@ -318,9 +312,9 @@ public class BoardGameCustom extends JPanel implements MouseListener, MouseMotio
 
 		if (selected == 'H') {
 			checkPosTab(lab.getTabuleiro().getTab()[coordY][coordX], coordX, coordY);
-			
-			if(lab.getHeroi().getActive())
-			lab.getTabuleiro().setChar(lab.getHeroi().getPos().getX(), lab.getHeroi().getPos().getY(), ' ');
+
+			if (lab.getHeroi().getActive())
+				lab.getTabuleiro().setChar(lab.getHeroi().getPos().getX(), lab.getHeroi().getPos().getY(), ' ');
 
 			if (!lab.getHeroi().getActive())
 				lab.getHeroi().setActive(true);
@@ -329,8 +323,8 @@ public class BoardGameCustom extends JPanel implements MouseListener, MouseMotio
 			lab.getTabuleiro().setChar(coordX, coordY, selected);
 		} else if (selected == 'P') {
 			checkPosTab(lab.getTabuleiro().getTab()[coordY][coordX], coordX, coordY);
-			
-			if(lab.getEscudo().getActive())
+
+			if (lab.getEscudo().getActive())
 				lab.getTabuleiro().setChar(lab.getEscudo().getPos().getX(), lab.getEscudo().getPos().getY(), ' ');
 
 			if (!lab.getEscudo().getActive())
@@ -340,8 +334,8 @@ public class BoardGameCustom extends JPanel implements MouseListener, MouseMotio
 			lab.getTabuleiro().setChar(coordX, coordY, selected);
 		} else if (selected == 'E') {
 			checkPosTab(lab.getTabuleiro().getTab()[coordY][coordX], coordX, coordY);
-			
-			if(lab.getEspada().getActive())
+
+			if (lab.getEspada().getActive())
 				lab.getTabuleiro().setChar(lab.getEspada().getPos().getX(), lab.getEspada().getPos().getY(), ' ');
 
 			if (!lab.getEspada().getActive())
@@ -399,23 +393,22 @@ public class BoardGameCustom extends JPanel implements MouseListener, MouseMotio
 		Dragao drags[];
 		Peca dards[];
 
-		Iterator<Dragao> iteDrag=dragoes.iterator();
-		
-		while(iteDrag.hasNext()){
-			if(iteDrag.next().getActive()==false){
+		Iterator<Dragao> iteDrag = dragoes.iterator();
+
+		while (iteDrag.hasNext()) {
+			if (iteDrag.next().getActive() == false) {
 				iteDrag.remove();
 			}
 		}
-		
 
 		drags = new Dragao[dragoes.size()];
 		dragoes.toArray(drags);
 		lab.setDragoes(drags);
 		// =====
-		Iterator<Peca> iteDard=dardos.iterator();
-		
-		while(iteDard.hasNext()){
-			if(iteDard.next().getActive()==false){
+		Iterator<Peca> iteDard = dardos.iterator();
+
+		while (iteDard.hasNext()) {
+			if (iteDard.next().getActive() == false) {
 				iteDard.remove();
 			}
 		}
